@@ -7,12 +7,14 @@ ruby File.read("./.ruby-version").strip
 
 gem "bootsnap", ">= 1.1.0", require: false
 gem "devise"
+gem "devise-jwt"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 3.11"
 gem "rails", "~> 5.2.3"
 gem "redis", "~> 4.0"
 
 group :development, :test do
+  gem "dotenv-rails", require: "dotenv/rails-now"
   gem "pry"
   gem "pry-nav"
   gem "rspec-rails"
