@@ -11,5 +11,12 @@ Rails.application.routes.draw do
     end
   end
 
+  get("/cookbook_vue", to: redirect do |_params, request|
+    url = ENV.fetch("COOKBOOK_VUE_HOST")
+    querystring = request.env["QUERY_STRING"]
+    url += "?#{querystring}" if querystring.present?
+    url
+  end)
+
   root "static#index"
 end
