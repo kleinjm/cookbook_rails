@@ -10,4 +10,6 @@ Rails.application.routes.draw do
       get "users/current", to: "sessions#show"
     end
   end
+
+  root "static#index"
 end
