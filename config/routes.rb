@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   scope :api, defaults: {format: :json} do
     devise_for :users,
-      controllers: { sessions: "sessions" },
+      controllers: { sessions: "sessions", registrations: "registrations" },
       defaults: { format: :json }
 
     devise_scope :user do

@@ -32,14 +32,13 @@ module CookbookRails
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
-    config.middleware.insert_before 0, Rack::Cors do
-      allow do
-        origins "http://localhost:3000"
-        resource "/api/*",
-          headers: %w(Authorization),
-          methods: :any,
-          expose: %w(Authorization),
-          max_age: 600
+  config.middleware.insert_before 0, Rack::Cors do
+    allow do
+      origins ENV.fetch("COOKBOOK_VUE_HOST")
+      resource '/api/*',
+        headers: :any,
+        methods: :any,
+        expose: %w(Authorization)
       end
     end
   end
