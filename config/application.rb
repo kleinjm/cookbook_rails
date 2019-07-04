@@ -22,6 +22,11 @@ module CookbookRails
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
+    config.action_mailer.default_url_options = {
+      host: ENV.fetch("MAILER_HOST"),
+      port: ENV.fetch("PORT")
+    }
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
@@ -32,13 +37,13 @@ module CookbookRails
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
-  config.middleware.insert_before 0, Rack::Cors do
-    allow do
-      origins ENV.fetch("COOKBOOK_VUE_HOST")
-      resource '/api/*',
-        headers: :any,
-        methods: :any,
-        expose: %w(Authorization)
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins ENV.fetch("COOKBOOK_VUE_HOST")
+        resource '/api/*',
+          headers: :any,
+          methods: :any,
+          expose: %w(Authorization)
       end
     end
   end
