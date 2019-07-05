@@ -25,6 +25,7 @@ end
 group :development do
   gem "jcop", "~> 0.3.0", git: "https://github.com/kleinjm/jcop"
   gem "listen", ">= 3.0.5", "< 3.2"
+  gem "pre-commit"
   gem "rubocop-performance"
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"
