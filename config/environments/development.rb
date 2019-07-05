@@ -1,24 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.configure do
-  # Send emails from development environment
-  config.action_mailer.perform_deliveries = true
-
-  # Don"t care if the mailer can"t send.
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.perform_caching = false
-
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address:              "smtp.gmail.com",
-    port:                 587,
-    domain:               ENV.fetch("MAILER_HOST"),
-    user_name:            ENV.fetch("GMAIL_USERNAME"),
-    password:             ENV.fetch("GMAIL_PASSWORD"),
-    authentication:       "plain",
-    enable_starttls_auto: true
-  }
-
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application"s code is reloaded on
