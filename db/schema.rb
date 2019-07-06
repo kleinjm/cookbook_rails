@@ -14,24 +14,26 @@
 
 ActiveRecord::Schema.define(version: 20_190_706_023_013) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
 
-  create_table "recipes", force: :cascade do |t|
+  create_table "recipes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.integer "times_cooked", default: 0, null: false
     t.string "link"
-    t.string "description"
+    t.text "description"
     t.text "steps"
     t.string "source"
     t.float "up_next", default: 0.0, null: false
     t.datetime "last_cooked"
-    t.bigint "user_id"
+    t.uuid "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index %w[user_id link], name: "index_recipes_on_user_id_and_link", unique: true
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.string "email", default: "", null: false

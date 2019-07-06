@@ -2,14 +2,21 @@
 
 module Types
   class QueryType < Types::BaseObject
-    # Add root-level fields here.
-    # They will be entry points for queries on your schema.
+    description "The query root of this schema"
 
     # TODO: remove me
-    field :test_field, String, null: false,
-                               description: "An example field added by the generator"
-    def test_field
-      "Hello World!"
+    field :users,
+          [Types::UserType],
+          null: false,
+          description: "An example field added by the generator"
+    def users
+      User.all
     end
+
+    # Used by Relay to lookup objects by UUID
+    field :node, field: GraphQL::Relay::Node.field
+
+    # Fetches a list of objects given a list of IDs
+    field :nodes, field: GraphQL::Relay::Node.plural_field
   end
 end
