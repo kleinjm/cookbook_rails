@@ -1,5 +1,27 @@
-require: rubocop-performance
+require:
+  - rubocop-performance
+  - rubocop-rails
 
-inherit_gem:
-  jcop:
-    - .rubocop.yml
+Metrics/LineLength:
+  Max: 80
+
+Style/Documentation:
+  Enabled: false
+
+Layout/DotPosition:
+  EnforcedStyle: trailing
+  Enabled: true
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+  ConsistentQuotesInMultiline: true
+  Enabled: true
+
+Style/LambdaCall:
+  Enabled: false
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Style/WordArray:
+  EnforcedStyle: percent
