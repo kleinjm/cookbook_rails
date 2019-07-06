@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
 # TODO: configure auth
-GraphiQL::Rails.config.headers['Authorization'] = -> (context) { "bearer #{context.cookies['_graphql_token']}" }
+GraphiQL::Rails.config.headers["Authorization"] = ->(context) { "bearer #{context.cookies['_graphql_token']}" }

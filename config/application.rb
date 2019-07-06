@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "boot"
 
 require "rails"
@@ -34,12 +36,12 @@ module CookbookRails
 
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-      address:              "smtp.gmail.com",
-      port:                 587,
-      domain:               ENV.fetch("MAILER_HOST"),
-      user_name:            ENV.fetch("GMAIL_USERNAME"),
-      password:             ENV.fetch("GMAIL_PASSWORD"),
-      authentication:       "plain",
+      address: "smtp.gmail.com",
+      port: 587,
+      domain: ENV.fetch("MAILER_HOST"),
+      user_name: ENV.fetch("GMAIL_USERNAME"),
+      password: ENV.fetch("GMAIL_PASSWORD"),
+      authentication: "plain",
       enable_starttls_auto: true
     }
 
@@ -56,10 +58,10 @@ module CookbookRails
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins ENV.fetch("COOKBOOK_VUE_HOST")
-        resource '/api/*',
-          headers: :any,
-          methods: :any,
-          expose: %w(Authorization)
+        resource "/api/*",
+                 headers: :any,
+                 methods: :any,
+                 expose: %w[Authorization]
       end
     end
   end
