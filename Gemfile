@@ -6,15 +6,20 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby File.read("./.ruby-version").strip
 
 gem "bootsnap", ">= 1.1.0", require: false
+gem "coffee-rails"
 gem "devise"
 gem "devise-jwt"
+gem "graphiql-rails"
 gem "graphql"
+gem "graphql-batch"
 gem "jbuilder"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 3.11"
 gem "rack-cors"
 gem "rails", "~> 5.2.3"
 gem "redis", "~> 4.0"
+gem "sass-rails"
+gem "uglifier"
 gem "validate_url"
 
 group :development, :test do
