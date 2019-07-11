@@ -11,7 +11,10 @@ gem "devise"
 gem "devise-jwt"
 gem "graphiql-rails"
 gem "graphql"
+# TODO: check out and wire up all the graphql gems
 gem "graphql-batch"
+gem "graphql-guard"
+gem "graphql-preload"
 gem "jbuilder"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 3.11"
@@ -43,5 +46,7 @@ end
 
 group :test do
   gem "factory_bot"
+  # TODO: check out and wire up all the graphql gems
+  gem "rspec-graphql_matchers"
   gem "simplecov", require: false
 end
