@@ -8,9 +8,9 @@ module Mutations
     field :menu, Types::MenuType, null: true
 
     def resolve(**args)
-      authorize_account
+      authorize_user
 
-      args[:account] = context[:current_account]
+      args[:user] = context[:current_user]
       menu = Menu.new(args)
       success = menu.save
 

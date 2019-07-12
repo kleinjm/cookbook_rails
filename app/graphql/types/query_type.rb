@@ -22,7 +22,7 @@ module Types
       ingredient_search:
     )
       ::Queries::Recipes.call(
-        account: context[:current_account],
+        user: context[:current_user],
         category_ids: category_ids,
         ingredient_search: ingredient_search,
         last_cooked: last_cooked,
@@ -35,12 +35,12 @@ module Types
 
     field :tags, TagType.connection_type, null: false
     def tags
-      Tag.where(account: context[:current_account]).order(:name)
+      Tag.where(user: context[:current_user]).order(:name)
     end
 
     field :menus, MenuType.connection_type, null: false
     def menus
-      Menu.where(account: context[:current_account]).order(:created_at)
+      Menu.where(user: context[:current_user]).order(:created_at)
     end
   end
 end

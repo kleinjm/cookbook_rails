@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,11 +10,72 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_190_706_023_013) do
+ActiveRecord::Schema.define(version: 2019_07_12_205104) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
+
+  create_table "images", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "recipe_id", null: false
+    t.string "cl_id"
+    t.binary "data", null: false
+    t.string "filename"
+    t.string "mime_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "ingredients", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "mapped_ingredient_id"
+    t.uuid "mapped_ingredients_id"
+    t.index ["mapped_ingredient_id"], name: "index_ingredients_on_mapped_ingredient_id"
+    t.index ["name"], name: "index_ingredients_on_name", unique: true
+  end
+
+  create_table "ingredients_recipes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "ingredient_id", null: false
+    t.string "recipe_id", null: false
+    t.string "unit_id"
+    t.float "quantity"
+    t.integer "order"
+    t.uuid "ingredients_id"
+    t.uuid "recipes_id"
+    t.index ["ingredient_id"], name: "index_ingredients_recipes_on_ingredient_id"
+    t.index ["recipe_id"], name: "index_ingredients_recipes_on_recipe_id"
+  end
+
+  create_table "mapped_ingredients", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.boolean "fresh", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_mapped_ingredients_on_name", unique: true
+  end
+
+  create_table "menus", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "user_id", null: false
+    t.uuid "users_id"
+    t.index ["user_id", "name"], name: "index_menus_on_user_id_and_name", unique: true
+  end
+
+  create_table "menus_recipes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "menu_id", null: false
+    t.string "recipe_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "menus_id"
+    t.uuid "recipes_id"
+    t.index ["menu_id", "recipe_id"], name: "index_menus_recipes_on_menu_id_and_recipe_id", unique: true
+  end
 
   create_table "recipes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
@@ -30,7 +89,34 @@ ActiveRecord::Schema.define(version: 20_190_706_023_013) do
     t.uuid "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index %w[user_id link], name: "index_recipes_on_user_id_and_link", unique: true
+    t.index ["user_id", "link"], name: "index_recipes_on_user_id_and_link", unique: true
+  end
+
+  create_table "recipes_tags", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "recipe_id", null: false
+    t.bigint "tag_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "recipes_id"
+    t.uuid "tags_id"
+    t.index ["recipe_id"], name: "index_recipes_tags_on_recipe_id"
+    t.index ["tag_id"], name: "index_recipes_tags_on_tag_id"
+  end
+
+  create_table "tags", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "user_id", null: false
+    t.uuid "users_id"
+    t.index ["user_id", "name"], name: "index_tags_on_user_id_and_name", unique: true
+  end
+
+  create_table "units", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_units_on_name", unique: true
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -59,5 +145,14 @@ ActiveRecord::Schema.define(version: 20_190_706_023_013) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "ingredients", "mapped_ingredients", column: "mapped_ingredients_id"
+  add_foreign_key "ingredients_recipes", "ingredients", column: "ingredients_id"
+  add_foreign_key "ingredients_recipes", "recipes", column: "recipes_id"
+  add_foreign_key "menus", "users", column: "users_id"
+  add_foreign_key "menus_recipes", "menus", column: "menus_id"
+  add_foreign_key "menus_recipes", "recipes", column: "recipes_id"
   add_foreign_key "recipes", "users"
+  add_foreign_key "recipes_tags", "recipes", column: "recipes_id"
+  add_foreign_key "recipes_tags", "tags", column: "tags_id"
+  add_foreign_key "tags", "users", column: "users_id"
 end

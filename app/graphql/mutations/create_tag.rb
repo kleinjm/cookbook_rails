@@ -7,9 +7,9 @@ module Mutations
     field :tag, Types::TagType, null: true
 
     def resolve(**args)
-      authorize_account
+      authorize_user
 
-      args[:account] = context[:current_account]
+      args[:user] = context[:current_user]
       tag = Tag.new(args)
       success = tag.save
 

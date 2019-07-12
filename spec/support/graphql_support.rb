@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module GqlSupport
-  def gql_query(query:, variables: {}, context: {}, account: nil)
-    add_account(context: context, account: account)
+  def gql_query(query:, variables: {}, context: {}, user: nil)
+    add_user(context: context, user: user)
 
     query = GraphQL::Query.new(
       RecipeViewerSchema,
@@ -16,11 +16,10 @@ module GqlSupport
 
   private
 
-  def add_account(context:, account:)
-    return if account.blank?
+  def add_user(context:, user:)
+    return if user.blank?
 
-    context[:current_account] = account
-    context[:current_user] = account.users&.first
+    context[:current_user] = user.users&.first
   end
 end
 
