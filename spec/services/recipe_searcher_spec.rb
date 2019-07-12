@@ -17,20 +17,5 @@ RSpec.describe RecipeSearcher do
 
       expect(results).to eq([recipe_one])
     end
-
-    it "filters on categories" do
-      category_one = create(:category)
-      recipe_one = create(:recipe)
-      recipe_one.categories << category_one
-
-      category_two = create(:category)
-      recipe_two = create(:recipe)
-      recipe_two.categories << category_two
-
-      results = described_class.new(category_gql_ids: [category_one.gql_id]).
-                call
-
-      expect(results).to eq([recipe_one])
-    end
   end
 end

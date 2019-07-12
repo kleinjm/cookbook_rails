@@ -8,7 +8,6 @@ module Types
     field :nodes, field: GraphQL::Relay::Node.plural_field
 
     field :recipes, RecipeType.connection_type, null: false do
-      argument :categoryIds, [ID], required: false, default_value: []
       argument :ingredientSearch, String, required: false, default_value: ""
       argument :lastCooked, Integer, required: false, default_value: 0
       argument :searchQuery, String, required: false, default_value: ""
@@ -18,17 +17,16 @@ module Types
 
     # rubocop:disable Metrics/ParameterLists
     def recipes(
-      search_query:, tag_ids:, category_ids:, this_week:, last_cooked:,
+      search_query:, tag_ids:, up_next:, last_cooked:,
       ingredient_search:
     )
       ::Queries::Recipes.call(
         user: context[:current_user],
-        category_ids: category_ids,
         ingredient_search: ingredient_search,
         last_cooked: last_cooked,
         search_query: search_query,
         tag_ids: tag_ids,
-        this_week: this_week
+        up_next: up_next
       )
     end
     # rubocop:enable Metrics/ParameterLists

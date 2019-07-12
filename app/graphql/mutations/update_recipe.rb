@@ -4,7 +4,6 @@ module Mutations
   class UpdateRecipe < Mutations::BaseMutation
     argument :recipe_id, ID, required: true, loads: Types::RecipeType
 
-    argument :category_ids, [ID], required: false
     argument :cook_time_quantity, String, required: false
     argument :cook_time_unit, String, required: false
     argument :ingredients, String, required: false
@@ -14,7 +13,7 @@ module Mutations
     argument :source, String, required: false
     argument :step_text, String, required: false
     argument :tag_ids, [ID], required: false
-    argument :this_week, Float, required: false
+    argument :up_next, Float, required: false
     argument :times_cooked, Integer, required: false
 
     field :recipe, Types::RecipeType, null: true

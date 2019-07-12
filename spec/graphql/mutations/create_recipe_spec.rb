@@ -8,7 +8,6 @@ RSpec.describe Mutations::CreateRecipe do
       user = create(:user, :user)
 
       variables = {
-        # "category_ids" => nil,
         "cookTimeQuantity" => "20",
         "cookTimeUnit" => "minutes",
         "ingredients" => "1 cup Basil",
@@ -48,7 +47,6 @@ RSpec.describe Mutations::CreateRecipe do
       expect(recipe_result[:timesCooked]).to eq(variables["timesCooked"])
       expect(recipe_result[:notes]).to eq(variables["notes"])
       expect(recipe_result[:source]).to eq(variables["source"])
-      expect(recipe_result[:categories]).to eq([])
     end
   end
 
@@ -65,7 +63,6 @@ RSpec.describe Mutations::CreateRecipe do
     <<~GQL
       mutation createRecipe(
         $name: String!,
-        $categoryIds: [ID!],
         $cookTimeQuantity: String,
         $cookTimeUnit: String,
         $ingredients: String,
@@ -79,7 +76,6 @@ RSpec.describe Mutations::CreateRecipe do
       ) {
         createRecipe(input: {
           name: $name,
-          categoryIds: $categoryIds,
           cookTimeQuantity: $cookTimeQuantity,
           cookTimeUnit: $cookTimeUnit,
           ingredients: $ingredients,
@@ -112,10 +108,6 @@ RSpec.describe Mutations::CreateRecipe do
             timesCooked
             notes
             source
-            categories {
-              id
-              name
-            }
           }
           success
           errors

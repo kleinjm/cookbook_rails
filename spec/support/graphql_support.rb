@@ -5,7 +5,7 @@ module GqlSupport
     add_user(context: context, user: user)
 
     query = GraphQL::Query.new(
-      RecipeViewerSchema,
+      CookbookRailsSchema,
       query,
       variables: variables.deep_stringify_keys,
       context: context

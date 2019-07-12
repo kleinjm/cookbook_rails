@@ -35,7 +35,7 @@ class Recipe < ApplicationRecord
   validates :cook_time_quantity,
             numericality: { greater_than_or_equal_to: 0 },
             allow_nil: true
-  validates :this_week, numericality: true
+  validates :up_next, numericality: true
   validates :up_next, numericality: true
   validates :link, url: { allow_nil: true }
 
@@ -58,13 +58,13 @@ class Recipe < ApplicationRecord
       end
   end
 
-  def self.this_week
-    where("this_week > 0")
+  def self.up_next
+    where("up_next > 0")
   end
 
-  def self.reset_this_week
-    this_week.find_each do |recipe|
-      recipe.update(this_week: 0)
+  def self.reset_up_next
+    up_next.find_each do |recipe|
+      recipe.update(up_next: 0)
     end
   end
 

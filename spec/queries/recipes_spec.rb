@@ -37,40 +37,6 @@ RSpec.describe Queries::Recipes do
       expect(recipes.first).to eq(recipe)
     end
 
-    it "returns recipes matching category ids" do
-      user = create(:user)
-      category = create(:category)
-      recipe = create(:recipe, user: user)
-      recipe.categories << category
-      _not_included = create(:recipe, user: user)
-
-      recipes = described_class.call(
-        category_ids: [category.gql_id], user: user
-      )
-
-      expect(recipes.length).to eq(1)
-      expect(recipes.first).to eq(recipe)
-    end
-
-    it "returns recipes matching category and tag ids" do
-      user = create(:user)
-
-      tag = create(:tag)
-      category = create(:category)
-      _not_included = create(:recipe, user: user)
-
-      recipe = create(:recipe, user: user)
-      recipe.categories << category
-      recipe.tags << tag
-
-      recipes = described_class.call(
-        category_ids: [category.gql_id], tag_ids: [tag.gql_id], user: user
-      )
-
-      expect(recipes.length).to eq(1)
-      expect(recipes.first).to eq(recipe)
-    end
-
     it "returns recipes matching search query" do
       user = create(:user)
       _not_matched = create(:recipe, name: "cold digs", user: user)
@@ -93,16 +59,16 @@ RSpec.describe Queries::Recipes do
       expect(recipes.first).to eq(recipe)
     end
 
-    it "returns this_week recipes if this_week true" do
+    it "returns up_next recipes if up_next true" do
       user = create(:user)
-      recipe = create(:recipe, this_week: 1, user: user)
-      _not_this_week = create(:recipe, this_week: 0, user: user)
+      recipe = create(:recipe, up_next: 1, user: user)
+      _not_up_next = create(:recipe, up_next: 0, user: user)
 
-      recipes = described_class.call(this_week: true, user: user)
+      recipes = described_class.call(up_next: true, user: user)
 
       expect(recipes.length).to eq(1)
       expect(recipes.first).to eq(recipe)
-      expect(recipes.first.this_week).to eq(1.0)
+      expect(recipes.first.up_next).to eq(1.0)
     end
 
     it "returns recipes with the matched ingredient names" do

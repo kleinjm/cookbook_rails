@@ -6,7 +6,6 @@ class DashboardDisplay
   # rubocop:disable Metrics/MethodLength
   def to_json(*_args)
     {
-      category_count: category_count,
       ingredient_count: ingredient_count,
       ingredients_with_mapping_count: ingredients_with_mapping_count,
       last_n_recipes: last_n_recipes(5),
@@ -29,10 +28,6 @@ class DashboardDisplay
 
   def recipe_count
     @recipe_count ||= Recipe.count
-  end
-
-  def category_count
-    @category_count ||= Category.count
   end
 
   def ingredient_count

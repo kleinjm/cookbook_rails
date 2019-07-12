@@ -17,7 +17,7 @@ RSpec.describe "POST /graphql" do
       operationName: operation_name
     )
 
-    expect(RecipeViewerSchema).to have_received(:execute).with(
+    expect(CookbookRailsSchema).to have_received(:execute).with(
       query,
       variables: variables,
       context: { current_user: nil },
@@ -32,7 +32,7 @@ RSpec.describe "POST /graphql" do
 
     post graphql_path(format: :json)
 
-    expect(RecipeViewerSchema).to have_received(:execute).with(
+    expect(CookbookRailsSchema).to have_received(:execute).with(
       nil,
       variables: {},
       context: { current_user: user },
@@ -77,7 +77,7 @@ RSpec.describe "POST /graphql" do
   end
 
   it "raises all errors" do
-    allow(RecipeViewerSchema).to receive(:execute).
+    allow(CookbookRailsSchema).to receive(:execute).
       and_raise(GraphQL::ExecutionError.new("Error!"))
 
     expect { post graphql_path(format: :json) }.
@@ -88,7 +88,7 @@ RSpec.describe "POST /graphql" do
     suppress_output do
       allow(Rails.env).to receive(:development?).and_return(true)
 
-      allow(RecipeViewerSchema).to receive(:execute).
+      allow(CookbookRailsSchema).to receive(:execute).
         and_raise(GraphQL::ExecutionError.new("Error!"))
 
       post graphql_path(format: :json)
@@ -100,7 +100,7 @@ RSpec.describe "POST /graphql" do
   end
 
   def expect_schema_called_with(variables)
-    expect(RecipeViewerSchema).to have_received(:execute).with(
+    expect(CookbookRailsSchema).to have_received(:execute).with(
       nil,
       variables: variables,
       context: { current_user: nil },
@@ -110,7 +110,7 @@ RSpec.describe "POST /graphql" do
   end
 
   def stub_schema_execute
-    allow(RecipeViewerSchema).to receive(:execute).and_return(success: true)
+    allow(CookbookRailsSchema).to receive(:execute).and_return(success: true)
   end
 
   def suppress_output

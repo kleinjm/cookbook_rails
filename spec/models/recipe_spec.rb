@@ -7,16 +7,7 @@ RSpec.describe Recipe do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to have_many(:images).dependent(:destroy) }
     it { is_expected.to have_many(:ingredients_recipes) }
-    it { is_expected.to have_many(:categories_recipes).dependent(:destroy) }
-    it do
-      is_expected.to have_many(:categories).
-        through(:categories_recipes).order(:name)
-    end
     it { is_expected.to validate_presence_of(:name) }
-    it do
-      is_expected.to have_many(:categories).
-        through(:categories_recipes).order(:name)
-    end
     it do
       is_expected.to have_many(:menus_recipes).
         dependent(:destroy).class_name("MenuRecipe")
@@ -60,19 +51,19 @@ RSpec.describe Recipe do
     end
   end
 
-  describe ".this_week" do
+  describe ".up_next" do
     it "returns only recipes for this week" do
-      this_week_recipe = create :recipe, this_week: 1
-      create :recipe, this_week: 0
-      expect(Recipe.this_week).to contain_exactly(this_week_recipe)
+      up_next_recipe = create :recipe, up_next: 1
+      create :recipe, up_next: 0
+      expect(Recipe.up_next).to contain_exactly(up_next_recipe)
     end
   end
 
-  describe ".reset_this_week" do
-    it "makes all recipe this_week false" do
-      recipe = create :recipe, this_week: 1
-      Recipe.reset_this_week
-      expect(recipe.reload.this_week).to eq(0)
+  describe ".reset_up_next" do
+    it "makes all recipe up_next false" do
+      recipe = create :recipe, up_next: 1
+      Recipe.reset_up_next
+      expect(recipe.reload.up_next).to eq(0)
     end
   end
 

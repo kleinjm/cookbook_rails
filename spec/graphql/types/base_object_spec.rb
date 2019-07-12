@@ -10,12 +10,11 @@ RSpec.describe Types::BaseObject do
 
       expect(Queries::Recipes).to have_received(:call).with(
         user: nil,
-        category_ids: [],
         ingredient_search: "",
         last_cooked: 0,
         search_query: "",
         tag_ids: [],
-        this_week: false
+        up_next: false
       )
     end
 
@@ -24,7 +23,6 @@ RSpec.describe Types::BaseObject do
       user = create(:user)
       execute_gql(
         variables: {
-          "categoryIds" => ["123"],
           "ingredientSearch" => "ingredient",
           "lastCooked" => 10,
           "searchQuery" => "search",
@@ -37,30 +35,12 @@ RSpec.describe Types::BaseObject do
 
       expect(Queries::Recipes).to have_received(:call).with(
         user: user,
-        category_ids: ["123"],
         ingredient_search: "ingredient",
         last_cooked: 10,
         search_query: "search",
         tag_ids: ["456"],
-        this_week: false
+        up_next: false
       )
-    end
-  end
-
-  describe "#categories" do
-    it "returns all categories for the current user ordered by name" do
-      user = create(:user)
-      my_category_first = create(:category, user: user, name: "A")
-      my_category_second = create(:category, user: user, name: "B")
-      _other_category = create(:category)
-
-      result = execute_gql(user: user, query: categories_query)
-
-      expect(result.dig(:categories, :nodes).count).to eq(2)
-      expect(result.dig(:categories, :nodes, 0, :id)).
-        to eq(my_category_first.gql_id)
-      expect(result.dig(:categories, :nodes, 1, :id)).
-        to eq(my_category_second.gql_id)
     end
   end
 
@@ -123,7 +103,6 @@ RSpec.describe Types::BaseObject do
   def recipe_query
     %(
       query(
-        $categoryIds: [ID!],
         $ingredientSearch: String,
         $lastCooked: Int,
         $searchQuery: String,
@@ -131,7 +110,6 @@ RSpec.describe Types::BaseObject do
         $thisWeek: Boolean
       ) {
         recipes(
-          categoryIds: $categoryIds,
           ingredientSearch: $ingredientSearch,
           lastCooked: $lastCooked,
           searchQuery: $searchQuery,
@@ -142,20 +120,6 @@ RSpec.describe Types::BaseObject do
             id
             name
             thisWeek
-          }
-        }
-      }
-    )
-  end
-
-  def categories_query
-    %(
-      query {
-        categories {
-          nodes {
-            id
-            name
-            recipeCount
           }
         }
       }
