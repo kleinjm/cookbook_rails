@@ -4,7 +4,7 @@ class CookbookRailsSchema < GraphQL::Schema
   mutation(Types::MutationType)
   query(Types::QueryType)
 
-  # GraphQL::Batch setup:
+  # GraphQL::Batch setup. Must be after `mutation`
   use GraphQL::Batch
 
   def self.id_from_object(object, _type_definition, _query_ctx)
