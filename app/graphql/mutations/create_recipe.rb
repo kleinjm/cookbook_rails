@@ -24,9 +24,9 @@ module Mutations
       result = builder.create(attributes: args)
 
       MutationResult.call(
-        obj: { recipe: builder.recipe },
-        success: result.success,
-        errors: result.errors
+        result[:recipe],
+        success: result[:success],
+        errors: result[:errors]
       )
     end
   end

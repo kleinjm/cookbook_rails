@@ -2,6 +2,10 @@ require:
   - rubocop-performance
   - rubocop-rails
 
+AllCops:
+  Exclude:
+    - ./db/schema.rb
+
 Metrics/LineLength:
   Max: 80
 
@@ -25,3 +29,8 @@ Style/SymbolArray:
 
 Style/WordArray:
   EnforcedStyle: percent
+
+Metrics/BlockLength:
+  Exclude:
+    - ./**/*_spec*.rb
+    - config/routes.rb

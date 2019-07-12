@@ -26,6 +26,7 @@ gem "uglifier"
 gem "validate_url"
 
 group :development, :test do
+  gem "bullet"
   gem "dotenv-rails", require: "dotenv/rails-now"
   gem "pry"
   gem "pry-nav"
@@ -34,7 +35,6 @@ end
 
 group :development do
   gem "brakeman"
-  gem "bullet"
   gem "listen", ">= 3.0.5", "< 3.2"
   gem "pre-commit"
   gem "rubocop"

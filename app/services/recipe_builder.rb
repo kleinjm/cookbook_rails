@@ -11,8 +11,8 @@ class RecipeBuilder
     clean_attributes(attributes)
     titleize(attributes)
     parse_ingredients(attributes)
-    sync_categories(attributes)
-    sync_tags(attributes)
+    # sync_categories(attributes)
+    # sync_tags(attributes)
     recipe.assign_attributes(attributes)
     recipe.save
     recipe_response
@@ -90,18 +90,18 @@ class RecipeBuilder
   end
 
   def recipe_response
-    RecipeResponse.new(
+    {
       recipe: recipe,
       success: recipe.errors.blank?,
       errors: recipe.errors
-    )
+    }
   end
 
   def error_response(error)
-    RecipeResponse.new(
+    {
       recipe: recipe,
       success: false,
       errors: ["Error modifying recipe", error.to_s]
-    )
+    }
   end
 end

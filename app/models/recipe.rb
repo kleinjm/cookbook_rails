@@ -5,5 +5,5 @@ class Recipe < ApplicationRecord
 
   validates :name, :times_cooked, :user_id, presence: true
   validates :up_next, numericality: true
-  validates :link, url: true
+  validates :link, url: { allow_nil: true }
 end
