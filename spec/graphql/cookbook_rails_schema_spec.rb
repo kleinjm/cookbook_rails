@@ -19,10 +19,10 @@ RSpec.describe CookbookRailsSchema do
 
   describe ".id_from_object" do
     it "returns the gql id for the given object" do
-      user = User.new(id: 123)
-      id = described_class.id_from_object(user, User)
-
-      expect(Base64.decode64(id)).to eq("User-123")
+      uuid = SecureRandom.uuid
+      user = User.new(id: uuid)
+      expect(described_class.id_from_object(user, nil, nil)).
+        to eq("User/#{uuid}")
     end
   end
 

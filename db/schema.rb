@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_12_205104) do
+ActiveRecord::Schema.define(version: 2019_07_12_213627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -89,6 +89,8 @@ ActiveRecord::Schema.define(version: 2019_07_12_205104) do
     t.uuid "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "cook_time_unit"
+    t.integer "cook_time_quantity"
     t.index ["user_id", "link"], name: "index_recipes_on_user_id_and_link", unique: true
   end
 

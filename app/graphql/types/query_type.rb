@@ -4,8 +4,8 @@ module Types
   class QueryType < Types::BaseObject
     description "The query root of this schema"
 
-    field :node, field: GraphQL::Relay::Node.field
-    field :nodes, field: GraphQL::Relay::Node.plural_field
+    add_field(GraphQL::Types::Relay::NodeField)
+    add_field(GraphQL::Types::Relay::NodesField)
 
     field :recipes, RecipeType.connection_type, null: false do
       argument :ingredientSearch, String, required: false, default_value: ""
