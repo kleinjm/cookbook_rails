@@ -59,7 +59,7 @@ module CookbookRails
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins ENV.fetch("COOKBOOK_VUE_HOST")
-        resource "/api/*",
+        resource "/*",
                  headers: :any,
                  methods: :any,
                  expose: %w[Authorization]
