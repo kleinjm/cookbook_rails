@@ -5,16 +5,17 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby File.read("./.ruby-version").strip
 
+gem "airbrake", "~> 5.0"
 gem "bootsnap", ">= 1.1.0", require: false
 gem "coffee-rails"
 gem "devise"
 gem "devise-jwt"
 gem "graphiql-rails"
 gem "graphql"
-# TODO: check out and wire up all the graphql gems
-gem "graphql-batch"
+gem "graphql-batch" # TODO: check out and wire up all the graphql gems
 gem "graphql-guard"
 gem "graphql-preload"
+gem "ingreedy"
 gem "jbuilder"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 3.11"
@@ -24,13 +25,13 @@ gem "redis", "~> 4.0"
 gem "sass-rails"
 gem "uglifier"
 gem "validate_url"
+gem "wunderlist-api", "1.3.0", git: "https://github.com/kleinjm/wunderlist-api"
 
 group :development, :test do
   gem "bullet"
   gem "dotenv-rails", require: "dotenv/rails-now"
-  gem "pry"
   gem "pry-nav"
-  gem "rspec-rails"
+  gem "pry-rails"
 end
 
 group :development do
@@ -40,13 +41,21 @@ group :development do
   gem "rubocop"
   gem "rubocop-performance"
   gem "rubocop-rails"
+  gem "rubocop-rspec", require: false
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"
 end
 
 group :test do
-  gem "factory_bot"
-  # TODO: check out and wire up all the graphql gems
-  gem "rspec-graphql_matchers"
+  gem "database_cleaner"
+  gem "factory_bot_rails"
+  gem "hashdiff", [">= 1.0.0.beta1", "< 2.0.0"]
+  gem "rails-controller-testing"
+  gem "rspec-graphql_matchers" # TODO: wire up all the graphql gems
+  gem "rspec-rails"
+  gem "shoulda"
+  gem "shoulda-matchers", "~> 3.1.2"
   gem "simplecov", require: false
+  gem "timecop"
+  gem "webmock"
 end

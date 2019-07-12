@@ -10,8 +10,8 @@ RSpec.describe RecipeBuilder do
 
       response = builder.create(attributes: {})
 
-      expect(response.success).to eq false
-      expect(response.errors).to eq ["Error modifying recipe", "ERROR!"]
+      expect(response[:success]).to eq false
+      expect(response[:errors]).to eq ["Error modifying recipe", "ERROR!"]
     end
   end
 
@@ -19,23 +19,13 @@ RSpec.describe RecipeBuilder do
     it "updates the name and link" do
       recipe = create :recipe
       attributes =
-        { name: "new name", link: "new link" }.with_indifferent_access
+        { name: "new name", link: "http://google.com" }.with_indifferent_access
+
       RecipeBuilder.new(recipe.id).update(attributes: attributes)
       recipe.reload
+
       expect(recipe.name).to eq "New Name"
       expect(recipe.link).to eq attributes[:link]
-    end
-
-    it "updates the categories" do
-      recipe = create :recipe
-      original_category = create :category
-      recipe.categories << original_category
-      new_category = create :category
-
-      builder = RecipeBuilder.new(recipe.id)
-      builder.update(attributes: { categories: [{ id: new_category.id }] })
-      recipe.reload
-      expect(recipe.categories).to eq [new_category]
     end
 
     it "updates the last_cooked when incrementing times_cooked" do
@@ -69,8 +59,8 @@ RSpec.describe RecipeBuilder do
 
       response = builder.update(attributes: {})
 
-      expect(response.success).to eq false
-      expect(response.errors).to eq ["Error modifying recipe", "ERROR!"]
+      expect(response[:success]).to eq false
+      expect(response[:errors]).to eq ["Error modifying recipe", "ERROR!"]
     end
   end
 end

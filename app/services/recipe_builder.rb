@@ -11,48 +11,37 @@ class RecipeBuilder
     clean_attributes(attributes)
     titleize(attributes)
     parse_ingredients(attributes)
-    # sync_categories(attributes)
-    # sync_tags(attributes)
+    sync_tags(attributes)
     recipe.assign_attributes(attributes)
     recipe.save
     recipe_response
-  rescue StandardError => error
-    error_response(error)
+  rescue StandardError => e
+    error_response(e)
   end
 
   # updates only the given attributes
   def update(attributes: {})
     clean_attributes(attributes)
     titleize(attributes)
-    sync_categories(attributes)
     sync_tags(attributes)
     parse_ingredients(attributes)
     touch_times_cooked(attributes)
     recipe.update(attributes)
     recipe_response
-  rescue StandardError => error
-    error_response(error)
+  rescue StandardError => e
+    error_response(e)
   end
 
   private
 
-  CATEGORY_IDS_ATTR = :category_ids
   TAG_IDS_ATTR = :tag_ids
-  private_constant :CATEGORY_IDS_ATTR, :TAG_IDS_ATTR
-
-  # sync the categories if attributes has categories (even if it's set to [])
-  def sync_categories(attributes)
-    return unless attributes.key?(CATEGORY_IDS_ATTR)
-
-    recipe.categories = Category.find_by_gql_ids(attributes[CATEGORY_IDS_ATTR])
-    attributes.delete(CATEGORY_IDS_ATTR)
-  end
+  private_constant :TAG_IDS_ATTR
 
   # sync the tags if attributes has tags (even if it's set to [])
   def sync_tags(attributes)
     return unless attributes.key?(TAG_IDS_ATTR)
 
-    recipe.tags = Tag.find_by_gql_ids(attributes[TAG_IDS_ATTR])
+    recipe.tags = Tag.find_by(gql_ids: attributes[TAG_IDS_ATTR])
     attributes.delete(TAG_IDS_ATTR)
   end
 
