@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Types::BaseObject do
+RSpec.describe Types::QueryType do
   describe "#recipes" do
     it "calls the query object with defaults" do
       allow(Queries::Recipes).to receive(:call)
@@ -27,7 +27,7 @@ RSpec.describe Types::BaseObject do
           "lastCooked" => 10,
           "searchQuery" => "search",
           "tagIds" => ["456"],
-          "thisWeek" => false
+          "upNext" => false
         },
         user: user,
         query: recipe_query
@@ -107,19 +107,19 @@ RSpec.describe Types::BaseObject do
         $lastCooked: Int,
         $searchQuery: String,
         $tagIds: [ID!],
-        $thisWeek: Boolean
+        $upNext: Boolean
       ) {
         recipes(
           ingredientSearch: $ingredientSearch,
           lastCooked: $lastCooked,
           searchQuery: $searchQuery,
           tagIds: $tagIds,
-          thisWeek: $thisWeek
+          upNext: $upNext
         ) {
           nodes {
             id
             name
-            thisWeek
+            upNext
           }
         }
       }

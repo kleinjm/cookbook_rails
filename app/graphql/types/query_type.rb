@@ -8,14 +8,13 @@ module Types
     add_field(GraphQL::Types::Relay::NodesField)
 
     field :recipes, RecipeType.connection_type, null: false do
-      argument :ingredientSearch, String, required: false, default_value: ""
-      argument :lastCooked, Integer, required: false, default_value: 0
-      argument :searchQuery, String, required: false, default_value: ""
-      argument :tagIds, [ID], required: false, default_value: []
-      argument :thisWeek, Boolean, required: false, default_value: false
+      argument :ingredient_search, String, required: false, default_value: ""
+      argument :last_cooked, Integer, required: false, default_value: 0
+      argument :search_query, String, required: false, default_value: ""
+      argument :tag_ids, [ID], required: false, default_value: []
+      argument :up_next, Boolean, required: false, default_value: false
     end
 
-    # rubocop:disable Metrics/ParameterLists
     def recipes(
       search_query:, tag_ids:, up_next:, last_cooked:,
       ingredient_search:
@@ -29,7 +28,6 @@ module Types
         up_next: up_next
       )
     end
-    # rubocop:enable Metrics/ParameterLists
 
     field :tags, TagType.connection_type, null: false
     def tags
