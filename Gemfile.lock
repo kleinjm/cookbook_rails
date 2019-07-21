@@ -60,7 +60,6 @@ GEM
     blankslate (3.1.3)
     bootsnap (1.4.4)
       msgpack (~> 1.0)
-    brakeman (4.5.1)
     builder (3.2.3)
     bullet (6.0.1)
       activesupport (>= 3.0.0)
@@ -324,7 +323,6 @@ PLATFORMS
 DEPENDENCIES
   airbrake (~> 5.0)
   bootsnap (>= 1.1.0)
-  brakeman
   bullet
   coffee-rails
   database_cleaner

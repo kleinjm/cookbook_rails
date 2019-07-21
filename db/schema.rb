@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_12_213627) do
+ActiveRecord::Schema.define(version: 2019_07_12_205104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -18,35 +18,34 @@ ActiveRecord::Schema.define(version: 2019_07_12_213627) do
   enable_extension "uuid-ossp"
 
   create_table "images", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "recipe_id", null: false
     t.string "cl_id"
     t.binary "data", null: false
     t.string "filename"
     t.string "mime_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "recipe_id"
+    t.index ["recipe_id"], name: "index_images_on_recipe_id", unique: true
   end
 
   create_table "ingredients", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "mapped_ingredient_id"
-    t.uuid "mapped_ingredients_id"
+    t.uuid "mapped_ingredient_id"
     t.index ["mapped_ingredient_id"], name: "index_ingredients_on_mapped_ingredient_id"
     t.index ["name"], name: "index_ingredients_on_name", unique: true
   end
 
   create_table "ingredients_recipes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "ingredient_id", null: false
-    t.string "recipe_id", null: false
-    t.string "unit_id"
+    t.uuid "ingredient_id"
+    t.uuid "recipe_id"
+    t.integer "unit_id"
     t.float "quantity"
     t.integer "order"
-    t.uuid "ingredients_id"
-    t.uuid "recipes_id"
     t.index ["ingredient_id"], name: "index_ingredients_recipes_on_ingredient_id"
     t.index ["recipe_id"], name: "index_ingredients_recipes_on_recipe_id"
+    t.index ["unit_id"], name: "index_ingredients_units_on_unit_id"
   end
 
   create_table "mapped_ingredients", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -62,18 +61,15 @@ ActiveRecord::Schema.define(version: 2019_07_12_213627) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "user_id", null: false
-    t.uuid "users_id"
+    t.uuid "user_id"
     t.index ["user_id", "name"], name: "index_menus_on_user_id_and_name", unique: true
   end
 
   create_table "menus_recipes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "menu_id", null: false
-    t.string "recipe_id", null: false
+    t.uuid "menu_id"
+    t.uuid "recipe_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "menus_id"
-    t.uuid "recipes_id"
     t.index ["menu_id", "recipe_id"], name: "index_menus_recipes_on_menu_id_and_recipe_id", unique: true
   end
 
@@ -95,12 +91,10 @@ ActiveRecord::Schema.define(version: 2019_07_12_213627) do
   end
 
   create_table "recipes_tags", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.bigint "recipe_id", null: false
-    t.bigint "tag_id", null: false
+    t.uuid "recipe_id"
+    t.uuid "tag_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "recipes_id"
-    t.uuid "tags_id"
     t.index ["recipe_id"], name: "index_recipes_tags_on_recipe_id"
     t.index ["tag_id"], name: "index_recipes_tags_on_tag_id"
   end
@@ -109,8 +103,7 @@ ActiveRecord::Schema.define(version: 2019_07_12_213627) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "user_id", null: false
-    t.uuid "users_id"
+    t.uuid "user_id"
     t.index ["user_id", "name"], name: "index_tags_on_user_id_and_name", unique: true
   end
 
@@ -147,14 +140,15 @@ ActiveRecord::Schema.define(version: 2019_07_12_213627) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "ingredients", "mapped_ingredients", column: "mapped_ingredients_id"
-  add_foreign_key "ingredients_recipes", "ingredients", column: "ingredients_id"
-  add_foreign_key "ingredients_recipes", "recipes", column: "recipes_id"
-  add_foreign_key "menus", "users", column: "users_id"
-  add_foreign_key "menus_recipes", "menus", column: "menus_id"
-  add_foreign_key "menus_recipes", "recipes", column: "recipes_id"
+  add_foreign_key "images", "recipes"
+  add_foreign_key "ingredients", "mapped_ingredients"
+  add_foreign_key "ingredients_recipes", "ingredients"
+  add_foreign_key "ingredients_recipes", "recipes"
+  add_foreign_key "menus", "users"
+  add_foreign_key "menus_recipes", "menus"
+  add_foreign_key "menus_recipes", "recipes"
   add_foreign_key "recipes", "users"
-  add_foreign_key "recipes_tags", "recipes", column: "recipes_id"
-  add_foreign_key "recipes_tags", "tags", column: "tags_id"
-  add_foreign_key "tags", "users", column: "users_id"
+  add_foreign_key "recipes_tags", "recipes"
+  add_foreign_key "recipes_tags", "tags"
+  add_foreign_key "tags", "users"
 end

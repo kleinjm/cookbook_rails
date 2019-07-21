@@ -40,11 +40,11 @@ class Recipe < ApplicationRecord
   validates :link, url: { allow_nil: true }
 
   def steps_count
-    step_text.lines.count
+    steps.lines.count
   end
 
   def step_list
-    step_text&.split("\n") || []
+    steps&.split("\n") || []
   end
 
   def ingredients_full_names(multiplier: 1)

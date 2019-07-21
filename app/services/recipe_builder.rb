@@ -54,9 +54,9 @@ class RecipeBuilder
   end
 
   def clean_attributes(attributes)
-    return attributes if attributes["step_text"].blank?
+    return attributes if attributes["steps"].blank?
 
-    attributes["step_text"] = attributes["step_text"].each_line.map do |x|
+    attributes["steps"] = attributes["steps"].each_line.map do |x|
       # remove extra new lines
       next if x.strip == ""
 

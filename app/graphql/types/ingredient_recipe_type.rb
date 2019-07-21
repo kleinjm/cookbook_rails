@@ -2,7 +2,9 @@
 
 module Types
   class IngredientRecipeType < Types::BaseObject
-    field :id, ID, null: false
+    implements GraphQL::Types::Relay::Node
+    global_id_field :id
+
     field :quantity, Float, null: true
     field :unit, String, "Name of the related unit", null: true
     def unit
