@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe Mutations::CreateMenu do
   it "creates the menu for the given user" do
-    user = create(:user, :user)
+    user = create(:user)
 
     variables = { "name" => "My New Menu", "description" => "Description" }
 

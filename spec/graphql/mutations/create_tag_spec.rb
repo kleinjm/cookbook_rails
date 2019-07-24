@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe Mutations::CreateTag do
   it "creates the tag for the given user" do
-    user = create(:user, :user)
+    user = create(:user)
 
     variables = { "name" => "My New Tag" }
 

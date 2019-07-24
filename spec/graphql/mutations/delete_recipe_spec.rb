@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe Mutations::DeleteRecipe do
   it "deletes the recipe" do
-    user = create(:user, :user)
+    user = create(:user)
     recipe = create(:recipe, user: user)
     variables = { "recipeId" => recipe.gql_id }
 
@@ -33,7 +33,7 @@ RSpec.describe Mutations::DeleteRecipe do
     variables = { "recipeId" => recipe.gql_id, "name" => "new name" }
 
     result = gql_query(
-      query: mutation, variables: variables, user: create(:user, :user)
+      query: mutation, variables: variables, user: create(:user)
     ).to_h.deep_symbolize_keys
 
     expect(result.dig(:data, :deleteRecipe, :recipe, :name)).to be_nil

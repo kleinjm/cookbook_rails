@@ -9,9 +9,9 @@ module Mutations
     argument :ingredients, String, required: false
     argument :link, String, required: false
     argument :name, String, required: false
-    argument :notes, String, required: false
+    argument :description, String, required: false
     argument :source, String, required: false
-    argument :step_text, String, required: false
+    argument :steps, String, required: false
     argument :tag_ids, [ID], required: false
     argument :up_next, Float, required: false
     argument :times_cooked, Integer, required: false
@@ -26,10 +26,9 @@ module Mutations
       result = builder.update(attributes: args)
 
       MutationResult.call(
-        obj: { recipe: builder.recipe },
-        success: result.success,
-        errors: result.errors.full_messages,
-        error_attrs: result.errors
+        result[:recipe],
+        success: result[:success],
+        errors: result[:errors]
       )
     end
   end

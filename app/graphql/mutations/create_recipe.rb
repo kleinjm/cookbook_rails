@@ -6,7 +6,7 @@ module Mutations
 
     argument :ingredients, String, required: false
     argument :link, String, required: false
-    argument :notes, String, required: false
+    argument :description, String, required: false
     argument :source, String, required: false
     argument :steps, String, required: false
     argument :tag_ids, [ID], required: false

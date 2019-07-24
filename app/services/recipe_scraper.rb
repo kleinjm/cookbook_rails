@@ -64,7 +64,7 @@ class RecipeScraper
     set_link
     set_title
     set_cook_time
-    set_step_text
+    set_steps
     set_ingredients
   end
 
@@ -85,7 +85,7 @@ class RecipeScraper
     recipe.cook_time_unit = "minutes"
   end
 
-  def set_step_text
+  def set_steps
     recipe.steps = json["instructions"].chomp
   end
 

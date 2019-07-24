@@ -32,6 +32,13 @@ class CopyOldTablesOver < ActiveRecord::Migration[5.2]
       t.index ["name"], name: "index_ingredients_on_name", unique: true
     end
 
+    create_table "units", id: :uuid, force: :cascade do |t|
+      t.string "name", null: false
+      t.datetime "created_at", null: false
+      t.datetime "updated_at", null: false
+      t.index ["name"], name: "index_units_on_name", unique: true
+    end
+
     create_table "ingredients_recipes", id: :uuid, force: :cascade do |t|
       t.integer "ingredient_id", null: false
       t.integer "recipe_id", null: false
@@ -40,6 +47,7 @@ class CopyOldTablesOver < ActiveRecord::Migration[5.2]
       t.integer "order"
       t.references :ingredient, foreign_key: true, index: false, type: :uuid
       t.references :recipe, foreign_key: true, index: false, type: :uuid
+      t.references :unit, foreign_key: true, index: false, type: :uuid
       t.index ["ingredient_id"], name: "index_ingredients_recipes_on_ingredient_id"
       t.index ["recipe_id"], name: "index_ingredients_recipes_on_recipe_id"
       t.index ["unit_id"], name: "index_ingredients_units_on_unit_id"
@@ -83,13 +91,6 @@ class CopyOldTablesOver < ActiveRecord::Migration[5.2]
       t.references :tag, foreign_key: true, index: false, type: :uuid
       t.index ["recipe_id"], name: "index_recipes_tags_on_recipe_id"
       t.index ["tag_id"], name: "index_recipes_tags_on_tag_id"
-    end
-
-    create_table "units", id: :uuid, force: :cascade do |t|
-      t.string "name", null: false
-      t.datetime "created_at", null: false
-      t.datetime "updated_at", null: false
-      t.index ["name"], name: "index_units_on_name", unique: true
     end
 
     add_column :recipes, :cook_time_unit, :string # TODO: drop this column

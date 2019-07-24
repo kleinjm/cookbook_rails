@@ -5,19 +5,19 @@ require "rails_helper"
 RSpec.describe Mutations::CreateRecipe do
   it "creates the recipe for the given user" do
     Timecop.freeze do
-      user = create(:user, :user)
+      user = create(:user)
 
       variables = {
         "cookTimeQuantity" => "20",
         "cookTimeUnit" => "minutes",
         "ingredients" => "1 cup Basil",
-        "link" => "www.google.com",
+        "link" => "http://www.google.com",
         "name" => "My New Recipe",
-        "notes" => "Some cool notes",
+        "description" => "Some cool description",
         "source" => "My cookbook, page 1",
-        "stepText" => "First step\n Second step",
+        "steps" => "First step\n Second step",
         # "tag_ids" => nil,
-        "thisWeek" => 1.0,
+        "upNext" => 1.0,
         "timesCooked" => 3
       }
 
@@ -37,15 +37,15 @@ RSpec.describe Mutations::CreateRecipe do
       expect(recipe_result[:ingredients]).
         to eq([{ name: "Basil", quantity: 1.0, unit: "cup" }])
       expect(recipe_result[:stepList]).to eq(["First step", " Second step"])
-      expect(recipe_result[:stepText]).to eq("First step\n Second step")
+      expect(recipe_result[:steps]).to eq("First step\n Second step")
       expect(recipe_result[:link]).to eq(variables["link"])
       expect(recipe_result[:cookTimeQuantity]).
         to eq(variables["cookTimeQuantity"])
       expect(recipe_result[:cookTimeUnit]).to eq(variables["cookTimeUnit"])
       expect(recipe_result[:tags]).to eq([])
-      expect(recipe_result[:thisWeek]).to eq(variables["thisWeek"])
+      expect(recipe_result[:upNext]).to eq(variables["upNext"])
       expect(recipe_result[:timesCooked]).to eq(variables["timesCooked"])
-      expect(recipe_result[:notes]).to eq(variables["notes"])
+      expect(recipe_result[:description]).to eq(variables["description"])
       expect(recipe_result[:source]).to eq(variables["source"])
     end
   end
@@ -67,11 +67,11 @@ RSpec.describe Mutations::CreateRecipe do
         $cookTimeUnit: String,
         $ingredients: String,
         $link: String,
-        $notes: String,
+        $description: String,
         $source: String,
-        $stepText: String,
+        $steps: String,
         $tagIds: [ID!],
-        $thisWeek: Float,
+        $upNext: Float,
         $timesCooked: Int
       ) {
         createRecipe(input: {
@@ -80,11 +80,11 @@ RSpec.describe Mutations::CreateRecipe do
           cookTimeUnit: $cookTimeUnit,
           ingredients: $ingredients,
           link: $link,
-          notes: $notes,
+          description: $description,
           source: $source,
-          stepText: $stepText,
+          steps: $steps,
           tagIds: $tagIds,
-          thisWeek: $thisWeek,
+          upNext: $upNext,
           timesCooked: $timesCooked
         }) {
           recipe {
@@ -96,7 +96,7 @@ RSpec.describe Mutations::CreateRecipe do
               unit
             }
             stepList
-            stepText
+            steps
             link
             cookTimeQuantity
             cookTimeUnit
@@ -104,9 +104,9 @@ RSpec.describe Mutations::CreateRecipe do
               id
               name
             }
-            thisWeek
+            upNext
             timesCooked
-            notes
+            description
             source
           }
           success

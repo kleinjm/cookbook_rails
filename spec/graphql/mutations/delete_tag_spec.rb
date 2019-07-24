@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe Mutations::DeleteTag do
   it "deletes the tag" do
-    user = create(:user, :user)
+    user = create(:user)
     tag = create(:tag, user: user)
     variables = { "tagId" => tag.gql_id }
 

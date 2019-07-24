@@ -75,26 +75,7 @@ RSpec.describe Types::QueryType do
     end
   end
 
-  describe "#user_by_auth_token_query" do
-    it "returns the user found by auth token" do
-      user = create(:user, :user)
-
-      result = execute_gql(
-        user: user,
-        query: user_by_auth_token_query,
-        variables: {
-          "token" => user.users.first.authentication_token
-        }
-      )
-
-      expect(result.dig(:userByAuthToken, :id)).
-        to eq(user.users.first.gql_id)
-      expect(result.dig(:userByAuthToken, :authenticationToken)).
-        to eq(user.users.first.authentication_token)
-    end
-  end
-
-  def execute_gql(query:, variables: {}, user: create(:user, :user))
+  def execute_gql(query:, variables: {}, user: create(:user))
     response = gql_query(query: query, variables: variables, user: user)
     response.to_h.deep_symbolize_keys.dig(:data)
   end
@@ -148,19 +129,6 @@ RSpec.describe Types::QueryType do
             id
             name
           }
-        }
-      }
-    )
-  end
-
-  def user_by_auth_token_query
-    %(
-      query userByAuthToken($token: String!) {
-        userByAuthToken(authenticationToken: $token) {
-          id
-          firstName
-          lastName
-          authenticationToken
         }
       }
     )

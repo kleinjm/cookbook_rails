@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2019_07_12_205104) do
   create_table "ingredients_recipes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "ingredient_id"
     t.uuid "recipe_id"
-    t.integer "unit_id"
+    t.uuid "unit_id"
     t.float "quantity"
     t.integer "order"
     t.index ["ingredient_id"], name: "index_ingredients_recipes_on_ingredient_id"
@@ -144,6 +144,7 @@ ActiveRecord::Schema.define(version: 2019_07_12_205104) do
   add_foreign_key "ingredients", "mapped_ingredients"
   add_foreign_key "ingredients_recipes", "ingredients"
   add_foreign_key "ingredients_recipes", "recipes"
+  add_foreign_key "ingredients_recipes", "units"
   add_foreign_key "menus", "users"
   add_foreign_key "menus_recipes", "menus"
   add_foreign_key "menus_recipes", "recipes"

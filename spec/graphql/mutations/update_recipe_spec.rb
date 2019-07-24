@@ -5,20 +5,20 @@ require "rails_helper"
 RSpec.describe Mutations::UpdateRecipe do
   it "updates the recipe" do
     Timecop.freeze do
-      user = create(:user, :user)
+      user = create(:user)
       recipe = create(:recipe, user: user)
       variables = {
         "recipeId" => recipe.gql_id,
         "cookTimeQuantity" => "20",
         "cookTimeUnit" => "minutes",
         "ingredients" => "1 cup Basil",
-        "link" => "www.google.com",
+        "link" => "http://www.google.com",
         "name" => "My New Recipe",
-        "notes" => "Some cool notes",
+        "description" => "Some cool description",
         "source" => "My cookbook, page 1",
-        "stepText" => "First step\n Second step",
+        "steps" => "First step\n Second step",
         # "tag_ids" => nil,
-        "thisWeek" => 1.0,
+        "upNext" => 1.0,
         "timesCooked" => 3
       }
 
@@ -33,18 +33,18 @@ RSpec.describe Mutations::UpdateRecipe do
       recipe_result = result[:recipe]
       expect(recipe_result[:id]).to eq(recipe.gql_id)
       expect(recipe_result[:name]).to eq(recipe.name)
-      expect(recipe_result[:ingredients]).
+      expect(recipe_result.dig(:ingredients, :nodes)).
         to eq([{ name: "Basil", quantity: 1.0, unit: "cup" }])
       expect(recipe_result[:stepList]).to eq(["First step", " Second step"])
-      expect(recipe_result[:stepText]).to eq("First step\n Second step")
+      expect(recipe_result[:steps]).to eq("First step\n Second step")
       expect(recipe_result[:link]).to eq(variables["link"])
       expect(recipe_result[:cookTimeQuantity]).
         to eq(variables["cookTimeQuantity"])
       expect(recipe_result[:cookTimeUnit]).to eq(variables["cookTimeUnit"])
-      expect(recipe_result[:tags]).to eq([])
-      expect(recipe_result[:thisWeek]).to eq(variables["thisWeek"])
+      expect(recipe_result.dig(:tags, :nodes)).to eq([])
+      expect(recipe_result[:upNext]).to eq(variables["upNext"])
       expect(recipe_result[:timesCooked]).to eq(variables["timesCooked"])
-      expect(recipe_result[:notes]).to eq(variables["notes"])
+      expect(recipe_result[:description]).to eq(variables["description"])
       expect(recipe_result[:source]).to eq(variables["source"])
     end
   end
@@ -64,7 +64,7 @@ RSpec.describe Mutations::UpdateRecipe do
     variables = { "recipeId" => recipe.gql_id, "name" => "new name" }
 
     result = gql_query(
-      query: mutation, variables: variables, user: create(:user, :user)
+      query: mutation, variables: variables, user: create(:user)
     ).to_h.deep_symbolize_keys
 
     expect(result.dig(:data, :updateRecipe, :recipe, :name)).to be_nil
@@ -81,11 +81,11 @@ RSpec.describe Mutations::UpdateRecipe do
         $ingredients: String,
         $link: String,
         $name: String,
-        $notes: String,
+        $description: String,
         $source: String,
-        $stepText: String,
+        $steps: String,
         $tagIds: [ID!]
-        $thisWeek: Float,
+        $upNext: Float,
         $timesCooked: Int
       ) {
         updateRecipe(input: {
@@ -95,41 +95,41 @@ RSpec.describe Mutations::UpdateRecipe do
           ingredients: $ingredients,
           link: $link,
           name: $name,
-          notes: $notes,
+          description: $description,
           source: $source,
-          stepText: $stepText,
+          steps: $steps,
           tagIds: $tagIds,
-          thisWeek: $thisWeek,
+          upNext: $upNext,
           timesCooked: $timesCooked
         }) {
           recipe {
-            id
-            name
-            ingredients {
-              name
-              quantity
-              unit
-            }
-            stepList
-            stepText
-            link
             cookTimeQuantity
             cookTimeUnit
-            tags {
-              id
-              name
-            }
-            thisWeek
-            timesCooked
-            notes
+            id
+            link
+            name
+            description
             source
+            stepList
+            steps
+            timesCooked
+            upNext
+            ingredients {
+              nodes {
+                name
+                quantity
+                unit
+              }
+            }
+            tags {
+              nodes {
+                id
+                name
+              }
+            }
           }
           success
           errors
-          errorAttrs {
-            attribute
-            messages
-          }
         }
       }
     GQL

@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe Mutations::UpdateMenu do
   it "updates the menu for the given user" do
-    user = create(:user, :user)
+    user = create(:user)
     menu = create(:menu, user: user)
 
     variables = {

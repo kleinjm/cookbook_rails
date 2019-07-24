@@ -4,7 +4,7 @@ class StepMigrator
   def migrate
     ActiveRecord::Base.transaction do
       Recipe.where(bookmark: false).find_each do |recipe|
-        recipe.step_text = recipe.steps.join("\n")
+        recipe.steps = recipe.steps.join("\n")
         recipe.save!
 
         recipe.ingredients.each do |ingredient|

@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe Mutations::DeleteMenu do
   it "deletes the menu" do
-    user = create(:user, :user)
+    user = create(:user)
     menu = create(:menu, user: user)
     variables = { "menuId" => menu.gql_id }
 

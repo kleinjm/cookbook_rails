@@ -76,9 +76,10 @@ class Recipe < ApplicationRecord
   end
 
   # if this recipe is not persisted, do not try to load associations via the db
+  # TODO: replace with gql batch loaders
   def ingredients_recipes_including_relations
     if persisted?
-      ingredients_recipes.includes(:unit, ingredient: [:mapped_ingredient])
+      ingredients_recipes.includes(:unit, :ingredient)
     else
       ingredients_recipes
     end

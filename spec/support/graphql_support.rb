@@ -19,7 +19,7 @@ module GqlSupport
   def add_user(context:, user:)
     return if user.blank?
 
-    context[:current_user] = user.users&.first
+    context[:current_user] = user
   end
 end
 

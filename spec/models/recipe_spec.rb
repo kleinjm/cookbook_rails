@@ -23,7 +23,7 @@ RSpec.describe Recipe do
   end
 
   describe "#step_list" do
-    it "does not break if step_text is blank" do
+    it "does not break if steps is blank" do
       expect(Recipe.new.step_list).to eq []
     end
   end
@@ -69,7 +69,7 @@ RSpec.describe Recipe do
 
   describe "#steps_count" do
     it "returns the correct step count" do
-      recipe = Recipe.new(step_text: "first\n second")
+      recipe = Recipe.new(steps: "first\n second")
       expect(recipe.steps_count).to eq 2
     end
   end
