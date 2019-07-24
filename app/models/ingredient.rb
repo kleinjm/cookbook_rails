@@ -9,7 +9,8 @@ class Ingredient < ApplicationRecord
   has_many :recipes, through: :ingredients_recipes
 
   belongs_to :mapped_ingredient,
-             inverse_of: :ingredients
+             inverse_of: :ingredients,
+             optional: true
 
   validates :name, presence: true
 

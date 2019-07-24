@@ -22,9 +22,9 @@ class RecipeScraper
     run_and_validate_scrape
     parse_json
     update_recipe_attributes
-    RecipeResponse.new(recipe: recipe, success: true, errors: nil)
+    response(success: true)
   rescue StandardError => e
-    failed_result(e)
+    response(success: false, errors: Array(e))
   ensure
     FileUtils.rm(DATA_FILE_PATH) if recipe_data_file_exists?
   end
@@ -86,14 +86,18 @@ class RecipeScraper
   end
 
   def set_step_text
-    recipe.step_text = json["instructions"].chomp
+    recipe.steps = json["instructions"].chomp
   end
 
   def set_ingredients
     IngredientParser.new(json["ingredients"]).assign_to_recipe(recipe)
   end
 
-  def failed_result(error)
-    RecipeResponse.new(recipe: recipe, success: false, errors: Array(error))
+  def response(success: true, errors: [])
+    {
+      recipe: recipe,
+      errors: errors,
+      success: success
+    }
   end
 end

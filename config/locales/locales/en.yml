@@ -1,0 +1,4 @@
+en:
+  recipe_scraper:
+    missing_link_error: Please provide a url to scrape
+    missing_data_file: Failed to fetch original recipe from url

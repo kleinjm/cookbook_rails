@@ -40,7 +40,7 @@ class IngredientParser
 
   def find_or_create_ingredient(ingredient_name)
     name = ingredient_name.capitalize
-    Ingredient.find_or_create_by(name: name)
+    Ingredient.find_or_create_by!(name: name)
   end
 
   def find_or_create_unit(unit)

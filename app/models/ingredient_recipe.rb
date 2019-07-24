@@ -5,7 +5,7 @@ class IngredientRecipe < ApplicationRecord
 
   belongs_to :recipe
   belongs_to :ingredient
-  belongs_to :unit
+  belongs_to :unit, optional: true
 
   validates :ingredient, :recipe, presence: true
   # TODO: add unique validation and index for ingredient and recipe

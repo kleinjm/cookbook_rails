@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "rails_helper"
+
 RSpec.describe RecipeScraper do
   before do
     allow(FileUtils).to receive(:rm) # don't delete the test file
@@ -10,8 +12,8 @@ RSpec.describe RecipeScraper do
       recipe = Recipe.new
       result = RecipeScraper.new(recipe).scrape("")
 
-      expect(result.success).to be false
-      expect(result.errors.first.message).
+      expect(result[:success]).to be false
+      expect(result[:errors].first.message).
         to eq(I18n.t("recipe_scraper.missing_link_error"))
     end
 
@@ -22,8 +24,8 @@ RSpec.describe RecipeScraper do
       allow(scraper).to receive(:scrape_output).and_return("Error!")
 
       result = scraper.scrape("www.somerecipe.com")
-      expect(result.success).to be false
-      expect(result.errors.first.message).to eq("Error!")
+      expect(result[:success]).to be false
+      expect(result[:errors].first.message).to eq("Error!")
     end
 
     it "returns a failed response if script does not create an output file" do
@@ -33,8 +35,8 @@ RSpec.describe RecipeScraper do
       allow(scraper).to receive(:scrape_output).and_return("Success!")
 
       result = scraper.scrape("www.somerecipe.com")
-      expect(result.success).to be false
-      expect(result.errors.first.message).
+      expect(result[:success]).to be false
+      expect(result[:errors].first.message).
         to eq(I18n.t("recipe_scraper.missing_data_file"))
     end
 
@@ -51,15 +53,15 @@ RSpec.describe RecipeScraper do
         allow(scraper).to receive(:scrape_output).and_return("Success!")
 
         result = scraper.scrape("www.somerecipe.com")
-        expect(result.success).to be true
-        expect(result.errors).to be_blank
+        expect(result[:success]).to be true
+        expect(result[:errors]).to be_blank
 
-        recipe = result.recipe.send(:resource)
+        recipe = result[:recipe]
         expect(recipe.link).to eq "www.somerecipe.com"
         expect(recipe.name).to eq "Chicken Tikka Masala"
         expect(recipe.cook_time_quantity).to eq 140
         expect(recipe.cook_time_unit).to eq "minutes"
-        expect(recipe.step_text).to be_present
+        expect(recipe.steps).to be_present
         expect(recipe.ingredients_recipes.size).to eq 19
         # ensure missing ingredients have been created
         expect(Ingredient.count).to eq 18
