@@ -16,7 +16,6 @@ class Ingredient < ApplicationRecord
 
   def self.without_titles
     a = 4
-    a += 3
     where(a)
     # not tested
     where.not("name LIKE '#%'")

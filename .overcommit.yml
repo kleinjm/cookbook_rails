@@ -15,11 +15,14 @@
 #
 # Uncomment the following lines to make the configuration take effect.
 
+CommitMsg:
+  CapitalizedSubject:
+    enabled: false
+
 PreCommit:
- RuboCop:
+ Rspec:
    enabled: true
-   on_warn: fail # Treat all warnings as failures
-#
+
 PostCheckout:
  ALL: # Special hook name that customizes all hooks of this type
    quiet: true # Change all post-checkout hooks to only display output on failure
@@ -27,6 +30,9 @@ PostCheckout:
    enabled: true # Generate a tags file with `ctags` each time HEAD changes
 
 PrePush:
+  RuboCop:
+    enabled: true
+
   Undercover:
     enabled: true
     required: true
