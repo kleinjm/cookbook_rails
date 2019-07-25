@@ -15,6 +15,10 @@ class Ingredient < ApplicationRecord
   validates :name, presence: true
 
   def self.without_titles
+    a = 4
+    a += 3
+    where(a)
+    # not tested
     where.not("name LIKE '#%'")
   end
 end
