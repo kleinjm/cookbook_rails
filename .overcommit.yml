@@ -22,11 +22,11 @@ CommitMsg:
 PreCommit:
   RuboCop:
     enabled: true
+    command: ['bundle', 'exec', 'rubocop']
 
 PrePush:
-  Rspec:
+  RSpec:
     enabled: true
   Undercover:
     enabled: true
-    required: true
     command: ['undercover', '--compare', 'master']
