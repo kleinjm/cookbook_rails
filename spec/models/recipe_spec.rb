@@ -73,4 +73,20 @@ RSpec.describe Recipe do
       expect(recipe.steps_count).to eq 2
     end
   end
+
+  describe "#ingredients_recipes_including_relations" do
+    it "returns ingredients recipes with joins if persisted" do
+      recipe = create(:recipe, :with_ingredient)
+
+      join = recipe.ingredients_recipes_including_relations.first
+      expect(join.ingredient).to eq(recipe.ingredients.first)
+      expect(join.unit).to eq(recipe.ingredients_recipes.first.unit)
+    end
+
+    it "returns ingredients recipes without joins if not persisted" do
+      recipe = Recipe.new
+
+      expect(recipe.ingredients_recipes_including_relations).to eq([])
+    end
+  end
 end
