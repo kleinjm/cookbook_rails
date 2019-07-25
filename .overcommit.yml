@@ -32,6 +32,8 @@ PostCheckout:
 PrePush:
   RuboCop:
     enabled: true
+    command: ['bundle', 'exec', 'rspec']
+    on_warn: fail
 
   Undercover:
     enabled: true
