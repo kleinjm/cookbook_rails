@@ -16,4 +16,13 @@ RSpec.describe Ingredient do
     it { is_expected.to have_many(:recipes).through(:ingredients_recipes) }
     it { is_expected.to validate_presence_of(:name) }
   end
+
+  describe ".without_titles" do
+    it "returns ingredients whos names do not include title ingredients" do
+      included_ingredient = create(:ingredient)
+      _excluded_ingredient = create(:ingredient, :title)
+
+      expect(described_class.without_titles.to_a).to eq([included_ingredient])
+    end
+  end
 end

@@ -14,10 +14,8 @@ class Ingredient < ApplicationRecord
 
   validates :name, presence: true
 
+  # ie. do not include `# Sauce` title
   def self.without_titles
-    a = 4
-    where(a)
-    # not tested
     where.not("name LIKE '#%'")
   end
 end
