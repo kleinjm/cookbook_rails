@@ -20,21 +20,14 @@ CommitMsg:
     enabled: false
 
 PreCommit:
- Rspec:
-   enabled: true
-
-PostCheckout:
- ALL: # Special hook name that customizes all hooks of this type
-   quiet: true # Change all post-checkout hooks to only display output on failure
- IndexTags:
-   enabled: true # Generate a tags file with `ctags` each time HEAD changes
+  RuboCop:
+    enabled: true
 
 PrePush:
-  RuboCop:
+  Rspec:
     enabled: true
     command: ['bundle', 'exec', 'rspec']
     on_warn: fail
-
   Undercover:
     enabled: true
     required: true
