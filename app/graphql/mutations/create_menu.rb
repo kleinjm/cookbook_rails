@@ -15,7 +15,7 @@ module Mutations
       success = menu.save
 
       MutationResult.call(
-        obj: { menu: menu },
+        menu,
         success: success,
         errors: menu.errors.full_messages
       )

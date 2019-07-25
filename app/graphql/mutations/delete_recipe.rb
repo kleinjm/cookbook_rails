@@ -11,7 +11,7 @@ module Mutations
 
       recipe.destroy
       MutationResult.call(
-        obj: { recipe: recipe },
+        recipe,
         errors: recipe.errors.full_messages
       )
     end

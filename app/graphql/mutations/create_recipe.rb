@@ -4,8 +4,11 @@ module Mutations
   class CreateRecipe < Mutations::BaseMutation
     argument :name, String, required: true
 
+    argument :cook_time_quantity, String, required: false
+    argument :cook_time_unit, String, required: false
     argument :ingredients, String, required: false
     argument :link, String, required: false
+    argument :name, String, required: false
     argument :description, String, required: false
     argument :source, String, required: false
     argument :steps, String, required: false

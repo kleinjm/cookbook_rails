@@ -41,7 +41,7 @@ class RecipeBuilder
   def sync_tags(attributes)
     return unless attributes.key?(TAG_IDS_ATTR)
 
-    recipe.tags = Tag.find_by(gql_ids: attributes[TAG_IDS_ATTR])
+    recipe.tags = Tag.find_by_gql_ids(attributes[TAG_IDS_ATTR])
     attributes.delete(TAG_IDS_ATTR)
   end
 

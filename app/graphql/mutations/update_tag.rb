@@ -14,7 +14,7 @@ module Mutations
       success = tag.update(args)
 
       MutationResult.call(
-        obj: { tag: tag },
+        tag,
         success: success,
         errors: tag.errors.full_messages
       )

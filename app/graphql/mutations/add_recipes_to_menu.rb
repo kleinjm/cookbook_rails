@@ -5,16 +5,15 @@ module Mutations
     argument :menu_id, ID, required: true, loads: Types::MenuType
     argument :recipe_ids, [ID], required: true, loads: Types::RecipeType
 
-    field :errors, [String], null: false
+    field :menu, Types::MenuType, null: true
 
     def resolve(menu:, recipes:)
+      # only add here, do not assign
       recipes.each do |recipe|
         menu.recipes << recipe unless menu.recipes.include?(recipe)
       end
 
-      {
-        errors: []
-      }
+      MutationResult.call(menu)
     end
   end
 end

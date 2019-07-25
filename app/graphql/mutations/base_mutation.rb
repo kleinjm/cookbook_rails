@@ -35,14 +35,16 @@ module Mutations
     def authorize_user
       return true if context[:current_user].present?
 
-      raise GraphQL::ExecutionError, "User not signed in"
+      raise GraphQL::ExecutionError,
+            I18n.t("mutations.base_mutation.unauthorized_for_user")
     end
 
     def authorize_for_object(model = object)
       authorize_user
       return true if model&.user == context[:current_user]
 
-      raise GraphQL::ExecutionError, "Unauthorized to change this object"
+      raise GraphQL::ExecutionError,
+            I18n.t("mutations.base_mutation.unauthorized_for_object")
     end
 
     def authorize_for_objects(models)

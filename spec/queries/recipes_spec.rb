@@ -31,7 +31,7 @@ RSpec.describe Queries::Recipes do
       _not_included = create(:recipe)
 
       recipes = described_class.
-                call(tag_ids: [tag.gql_id], user: recipe.user)
+                call(tag_ids: [tag.id], user: recipe.user)
 
       expect(recipes.length).to eq(1)
       expect(recipes.first).to eq(recipe)

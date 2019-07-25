@@ -8,13 +8,13 @@ module Mutations
     field :recipes, [Types::RecipeType], null: true
 
     def resolve(**args)
-      recipes = Recipe.find_by(gql_ids: args[:recipe_ids])
+      recipes = Recipe.find_by_gql_ids(args[:recipe_ids])
       authorize_for_objects(recipes)
 
       success = recipes.update(up_next: args[:up_next])
 
       MutationResult.call(
-        obj: { recipes: recipes },
+        recipes,
         success: success,
         errors: recipes.map(&:errors).flatten
       )

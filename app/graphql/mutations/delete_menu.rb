@@ -11,7 +11,7 @@ module Mutations
 
       menu.destroy
       MutationResult.call(
-        obj: { menu: menu },
+        menu,
         errors: menu.errors.full_messages
       )
     end

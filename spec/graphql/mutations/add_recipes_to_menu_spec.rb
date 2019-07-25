@@ -15,10 +15,11 @@ RSpec.describe Mutations::AddRecipesToMenu do
     response = gql_query(query: mutation, variables: variables).
                to_h.deep_symbolize_keys.dig(:data, :addRecipesToMenu)
 
-    expect(response.dig(:node, :id)).to eq(menu.gql_id)
-    expect(response.dig(:node, :recipes).map { |r| r[:id] }).
-      to contain_exactly(recipe_one.gql_id, recipe_two.gql_id)
+    expect(response[:success]).to eq(true)
     expect(response[:errors]).to be_empty
+    expect(response.dig(:menu, :id)).to eq(menu.gql_id)
+    expect(response.dig(:menu, :recipes).map { |r| r[:id] }).
+      to contain_exactly(recipe_one.gql_id, recipe_two.gql_id)
   end
 
   it "does not add a recipe to a menu if already related" do
@@ -37,17 +38,16 @@ RSpec.describe Mutations::AddRecipesToMenu do
     <<~GQL
       mutation addRecipesToMenu($recipeIds: [ID!]!, $menuId: ID!) {
         addRecipesToMenu(input:{ recipeIds: $recipeIds, menuId: $menuId }) {
-          node(id: $menuId) {
-            ... on Menu {
+          menu {
+            id
+            name
+            recipes {
               id
               name
-              recipes {
-                id
-                name
-              }
             }
           }
           errors
+          success
         }
       }
     GQL

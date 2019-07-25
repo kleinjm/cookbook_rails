@@ -11,7 +11,7 @@ module Mutations
 
       tag.destroy
       MutationResult.call(
-        obj: { tag: tag },
+        tag,
         errors: tag.errors.full_messages
       )
     end

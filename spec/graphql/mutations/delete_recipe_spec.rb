@@ -25,7 +25,7 @@ RSpec.describe Mutations::DeleteRecipe do
              to_h.deep_symbolize_keys
 
     expect(result.dig(:errors, 0, :message)).
-      to eq("An object of type Recipe was hidden due to permissions")
+      to eq(I18n.t("mutations.base_mutation.unauthorized_for_user"))
   end
 
   it "does not allow deleting another user's recipe" do
@@ -38,7 +38,7 @@ RSpec.describe Mutations::DeleteRecipe do
 
     expect(result.dig(:data, :deleteRecipe, :recipe, :name)).to be_nil
     expect(result.dig(:errors, 0, :message)).
-      to eq("An object of type Recipe was hidden due to permissions")
+      to eq(I18n.t("mutations.base_mutation.unauthorized_for_object"))
   end
 
   def mutation

@@ -13,7 +13,7 @@ RSpec.describe RecipeSearcher do
       recipe_two = create(:recipe)
       recipe_two.tags << tag_two
 
-      results = described_class.new(tag_gql_ids: [tag_one.gql_id]).call
+      results = described_class.new(tag_ids: [tag_one.id]).call
 
       expect(results).to eq([recipe_one])
     end

@@ -46,3 +46,8 @@ Metrics/MethodLength:
 Metrics/AbcSize:
   Exclude:
     - db/migrate/*.rb
+
+Rails/DynamicFindBy:
+  Whitelist:
+    - find_by_gql_id
+    - find_by_gql_ids

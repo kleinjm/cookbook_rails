@@ -3,7 +3,7 @@
 class Menu < ApplicationRecord
   include GraphQL::Interface
 
-  belongs_to :user
+  belongs_to :user, inverse_of: :menus
 
   has_many :menus_recipes, dependent: :destroy, class_name: "MenuRecipe"
   has_many :recipes, through: :menus_recipes

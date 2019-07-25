@@ -6,20 +6,17 @@ module Mutations
     argument :url, String, required: true
 
     field :recipe, Types::RecipeType, null: true
-    field :errors, [String], null: false
 
     def resolve(**args)
       recipe = find_recipe(args[:recipe_id])
       scraper = RecipeScraper.new(recipe)
       result = scraper.scrape(args[:url])
-      {
-        recipe: scraper.recipe,
-        errors: Array(result.errors)
-      }
+
+      MutationResult.call(scraper.recipe, errors: Array(result.errors))
     end
 
     def find_recipe(recipe_id)
-      recipe_id.present? ? Recipe.find_by(gql_id: recipe_id) : Recipe.new
+      recipe_id.present? ? Recipe.find_by_gql_id(recipe_id) : Recipe.new
     end
   end
 end

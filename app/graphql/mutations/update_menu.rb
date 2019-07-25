@@ -15,7 +15,7 @@ module Mutations
       success = menu.update(args)
 
       MutationResult.call(
-        obj: { menu: menu },
+        menu,
         success: success,
         errors: menu.errors.full_messages
       )

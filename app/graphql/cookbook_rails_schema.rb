@@ -26,4 +26,10 @@ class CookbookRailsSchema < GraphQL::Schema
   rescue NameError
     raise("Unexpected object: #{obj}")
   end
+
+  def self.unauthorized_object(error)
+    raise GraphQL::ExecutionError,
+          "An object of type #{error.type.graphql_name} was hidden due " \
+          "to permissions"
+  end
 end

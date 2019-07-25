@@ -70,7 +70,7 @@ module Queries
     def recipe_search_results
       searched_recipes = ::RecipeSearcher.new(
         search_query: search_query,
-        tag_gql_ids: tag_ids,
+        tag_ids: tag_ids
       ).call
       base_query.merge(searched_recipes)
     end

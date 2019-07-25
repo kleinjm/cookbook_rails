@@ -34,7 +34,7 @@ RSpec.describe Mutations::CreateRecipe do
       recipe_result = result[:recipe]
       expect(recipe_result[:id]).to eq(recipe.gql_id)
       expect(recipe_result[:name]).to eq(recipe.name)
-      expect(recipe_result[:ingredients]).
+      expect(recipe_result[:ingredients][:nodes]).
         to eq([{ name: "Basil", quantity: 1.0, unit: "cup" }])
       expect(recipe_result[:stepList]).to eq(["First step", " Second step"])
       expect(recipe_result[:steps]).to eq("First step\n Second step")
@@ -42,7 +42,7 @@ RSpec.describe Mutations::CreateRecipe do
       expect(recipe_result[:cookTimeQuantity]).
         to eq(variables["cookTimeQuantity"])
       expect(recipe_result[:cookTimeUnit]).to eq(variables["cookTimeUnit"])
-      expect(recipe_result[:tags]).to eq([])
+      expect(recipe_result[:tags][:nodes]).to eq([])
       expect(recipe_result[:upNext]).to eq(variables["upNext"])
       expect(recipe_result[:timesCooked]).to eq(variables["timesCooked"])
       expect(recipe_result[:description]).to eq(variables["description"])
@@ -91,9 +91,11 @@ RSpec.describe Mutations::CreateRecipe do
             id
             name
             ingredients {
-              name
-              quantity
-              unit
+              nodes {
+                name
+                quantity
+                unit
+              }
             }
             stepList
             steps
@@ -101,8 +103,10 @@ RSpec.describe Mutations::CreateRecipe do
             cookTimeQuantity
             cookTimeUnit
             tags {
-              id
-              name
+              nodes {
+                id
+                name
+              }
             }
             upNext
             timesCooked
@@ -111,10 +115,6 @@ RSpec.describe Mutations::CreateRecipe do
           }
           success
           errors
-          errorAttrs {
-            attribute
-            messages
-          }
         }
       }
     GQL

@@ -3,7 +3,7 @@
 class Tag < ApplicationRecord
   include GraphQL::Interface
 
-  belongs_to :user
+  belongs_to :user, inverse_of: :tags
 
   has_many :recipes_tags, class_name: "RecipeTag", dependent: :destroy
   has_many :recipes, through: :recipes_tags, inverse_of: :tags

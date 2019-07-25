@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "rails_helper"
+
 RSpec.describe WunderlistInterface do
   describe "#add_recipe" do
     it "adds the recipe to wunderlist" do

@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
 class RecipeSearcher
-  def initialize(search_query: "", tag_gql_ids: [])
+  def initialize(search_query: "", tag_ids: [])
     @search_query = search_query
-    @tag_gql_ids = tag_gql_ids
+    @tag_ids = tag_ids
   end
 
   def call
     @query = root_query
     name_search
-    return filter_tags if tag_gql_ids.present?
+    return filter_tags if tag_ids.present?
 
     query
   end
 
   private
 
-  attr_reader :search_query, :tag_gql_ids
+  attr_reader :search_query, :tag_ids
 
   attr_accessor :query
 
@@ -36,9 +36,5 @@ class RecipeSearcher
       where(recipes_tags: { tag_id: tag_ids }).
       having("count(*) = #{tag_ids.count}").
       group("recipes.id")
-  end
-
-  def tag_ids
-    Tag.find_by(gql_ids: tag_gql_ids).pluck(:id)
   end
 end
