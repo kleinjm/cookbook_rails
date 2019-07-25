@@ -5,6 +5,7 @@ require:
 AllCops:
   Exclude:
     - ./db/schema.rb
+    - lib/tasks/one_offs/migrate_steps_and_ingredients.rake
 
 Metrics/LineLength:
   Max: 80

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 SimpleCov.start "rails" do
-  minimum_coverage 68
+  minimum_coverage 77
 
   # custom directories
   add_group "Graphql", "app/graphql"
@@ -12,4 +12,5 @@ SimpleCov.start "rails" do
   add_filter "app/channels"
   add_filter "app/jobs"
   add_filter "app/mailers"
+  add_filter "lib/tasks/one_offs"
 end

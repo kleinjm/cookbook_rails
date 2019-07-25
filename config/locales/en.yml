@@ -6,3 +6,4 @@ en:
     base_mutation:
       unauthorized_for_user: User not signed in
       unauthorized_for_object: Unauthorized to change this object
+      unauthorized_for_objects: Unauthorized to change all these objects

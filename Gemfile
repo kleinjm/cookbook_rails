@@ -36,6 +36,7 @@ end
 
 group :development do
   gem "listen", ">= 3.0.5", "< 3.2"
+  gem "overcommit"
   gem "pre-commit"
   gem "rubocop"
   gem "rubocop-performance"
@@ -55,6 +56,8 @@ group :test do
   gem "shoulda"
   gem "shoulda-matchers", "~> 3.1.2"
   gem "simplecov", require: false
+  gem "simplecov-lcov"
   gem "timecop"
+  gem "undercover"
   gem "webmock"
 end

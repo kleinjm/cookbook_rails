@@ -53,7 +53,8 @@ module Mutations
         user_id == context[:current_user].id
       end
 
-      raise GraphQL::ExecutionError, "Unauthorized to change all these objects"
+      raise GraphQL::ExecutionError,
+            I18n.t("mutations.base_mutation.unauthorized_for_objects")
     end
   end
 end
