@@ -26,8 +26,6 @@ PreCommit:
 PrePush:
   Rspec:
     enabled: true
-    command: ['bundle', 'exec', 'rspec']
-    on_warn: fail
   Undercover:
     enabled: true
     required: true
