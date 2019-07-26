@@ -14,6 +14,8 @@ RSpec.describe Queries::Recipes do
     it "returns all recipes for only the given user" do
       my_user = create(:user)
       my_recipe = create(:recipe, user: my_user)
+      tag = create(:tag)
+      my_recipe.tags << tag
 
       other_user = create(:user)
       _other_recipe = create(:recipe, user: other_user)
@@ -22,6 +24,7 @@ RSpec.describe Queries::Recipes do
 
       expect(recipes.count).to eq(1)
       expect(recipes.first).to eq(my_recipe)
+      expect(recipes.first.tags).to eq(tag)
     end
 
     it "returns recipes matching tag ids" do
