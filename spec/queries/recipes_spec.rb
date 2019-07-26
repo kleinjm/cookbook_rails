@@ -24,7 +24,7 @@ RSpec.describe Queries::Recipes do
 
       expect(recipes.count).to eq(1)
       expect(recipes.first).to eq(my_recipe)
-      expect(recipes.first.tags).to eq(tag)
+      expect(recipes.first.tags.first).to eq(tag)
     end
 
     it "returns recipes matching tag ids" do
