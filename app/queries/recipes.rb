@@ -82,7 +82,7 @@ module Queries
     end
 
     def all_recipes
-      base_query.all.order(:name)
+      base_query.includes(:recipes_tags, :tags).order(:name)
     end
 
     def base_query
