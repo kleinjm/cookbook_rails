@@ -5,6 +5,7 @@ module Types
     implements GraphQL::Relay::Node.interface
     global_id_field :id
 
+    field :uuid, ID, null: false
     field :cook_time_quantity, String, null: true
     field :cook_time_unit, String, null: true
     field :description, String, null: true

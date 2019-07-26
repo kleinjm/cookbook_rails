@@ -29,6 +29,13 @@ module Types
       )
     end
 
+    field :recipe, RecipeType, null: false do
+      argument :uuid, ID, required: true
+    end
+    def recipe(uuid:)
+      Recipe.find(uuid)
+    end
+
     field :tags, TagType.connection_type, null: false
     def tags
       Tag.where(user: context[:current_user]).order(:name)

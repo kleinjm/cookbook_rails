@@ -33,3 +33,5 @@ class CookbookRailsSchema < GraphQL::Schema
           "to permissions"
   end
 end
+
+require_relative "./errors"

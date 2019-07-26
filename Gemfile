@@ -13,6 +13,7 @@ gem "devise-jwt"
 gem "graphiql-rails"
 gem "graphql"
 gem "graphql-batch" # TODO: check out and wire up all the graphql gems
+gem "graphql-errors"
 gem "graphql-guard"
 gem "graphql-preload"
 gem "ingreedy"

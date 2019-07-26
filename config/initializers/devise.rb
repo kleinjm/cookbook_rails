@@ -5,6 +5,8 @@
 Devise.setup do |config|
   config.jwt do |jwt|
     jwt.secret = ENV.fetch("DEVISE_JWT_SECRET_KEY")
+    # TODO: switch to oauth
+    jwt.expiration_time = 15_778_476 # 6 months
   end
 
   config.allow_unconfirmed_access_for = 1.day

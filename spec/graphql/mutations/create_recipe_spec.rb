@@ -33,6 +33,7 @@ RSpec.describe Mutations::CreateRecipe do
       recipe = user.recipes.first
       recipe_result = result[:recipe]
       expect(recipe_result[:id]).to eq(recipe.gql_id)
+      expect(recipe_result[:uuid]).to eq(recipe.uuid)
       expect(recipe_result[:name]).to eq(recipe.name)
       expect(recipe_result[:ingredients][:nodes]).
         to eq([{ name: "Basil", quantity: 1.0, unit: "cup" }])
@@ -89,6 +90,7 @@ RSpec.describe Mutations::CreateRecipe do
         }) {
           recipe {
             id
+            uuid
             name
             ingredients {
               nodes {

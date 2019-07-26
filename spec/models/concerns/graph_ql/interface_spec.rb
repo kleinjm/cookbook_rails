@@ -29,6 +29,12 @@ RSpec.describe GraphQL::Interface do
     end
   end
 
+  describe "#uuid" do
+    it "returns id" do
+      expect(MockClass.new.uuid).to eq(MockClass.new.id)
+    end
+  end
+
   describe ".find_by_gql_id" do
     it "finds the MockClass with the given gql id" do
       mock_class = MockClass.new(456)

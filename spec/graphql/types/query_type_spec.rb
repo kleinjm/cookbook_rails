@@ -6,7 +6,7 @@ RSpec.describe Types::QueryType do
   describe "#recipes" do
     it "calls the query object with defaults" do
       allow(Queries::Recipes).to receive(:call)
-      execute_gql(user: nil, query: recipe_query)
+      execute_gql(user: nil, query: recipes_query)
 
       expect(Queries::Recipes).to have_received(:call).with(
         user: nil,
@@ -30,7 +30,7 @@ RSpec.describe Types::QueryType do
           "upNext" => false
         },
         user: user,
-        query: recipe_query
+        query: recipes_query
       )
 
       expect(Queries::Recipes).to have_received(:call).with(
@@ -41,6 +41,28 @@ RSpec.describe Types::QueryType do
         tag_ids: ["456"],
         up_next: false
       )
+    end
+  end
+
+  describe "#recipe" do
+    it "returns the given recipe" do
+      recipe = create(:recipe)
+      result = execute_gql(
+        variables: { "uuid" => recipe.uuid },
+        query: recipe_query
+      )
+
+      expect(result.dig(:recipe, :uuid)).to eq(recipe.uuid)
+    end
+
+    # app/graphql/errors.rb does raise an error but the result is not working
+    # in tests
+    it "raises an error if unable to find recipe" do
+      result = execute_gql(
+        variables: { "uuid" => "bad-id" },
+        query: recipe_query
+      )
+      expect(result).to be_nil
     end
   end
 
@@ -81,7 +103,7 @@ RSpec.describe Types::QueryType do
   end
 
   # rubocop:disable Metrics/MethodLength
-  def recipe_query
+  def recipes_query
     %(
       query(
         $ingredientSearch: String,
@@ -102,6 +124,17 @@ RSpec.describe Types::QueryType do
             name
             upNext
           }
+        }
+      }
+    )
+  end
+
+  def recipe_query
+    %(
+      query($uuid: ID!) {
+        recipe(uuid: $uuid) {
+          id
+          uuid
         }
       }
     )

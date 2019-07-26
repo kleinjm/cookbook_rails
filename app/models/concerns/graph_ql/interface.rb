@@ -12,6 +12,11 @@ module GraphQL
       def gql_id
         GraphqlUuid.encode(self)
       end
+
+      # return the raw uuid without the class name
+      def uuid
+        id
+      end
     end
 
     module ClassMethods

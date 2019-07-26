@@ -9,6 +9,8 @@ AllCops:
 
 Metrics/LineLength:
   Max: 80
+  Exclude:
+    - config/initializers/devise.rb
 
 Style/Documentation:
   Enabled: false

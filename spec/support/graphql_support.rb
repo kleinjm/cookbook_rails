@@ -4,14 +4,11 @@ module GqlSupport
   def gql_query(query:, variables: {}, context: {}, user: nil)
     add_user(context: context, user: user)
 
-    query = GraphQL::Query.new(
-      CookbookRailsSchema,
+    CookbookRailsSchema.execute(
       query,
       variables: variables.deep_stringify_keys,
       context: context
     )
-
-    query.result if query.valid?
   end
 
   private
