@@ -19,6 +19,8 @@ module Types
     field :times_cooked, Integer, null: false
     field :up_next, Float, null: false
     field :user, Types::UserType, null: true
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
 
     field :tags, TagType.connection_type, null: false
     delegate :tags, to: :object

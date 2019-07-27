@@ -48,6 +48,10 @@ RSpec.describe Mutations::CreateRecipe do
       expect(recipe_result[:timesCooked]).to eq(variables["timesCooked"])
       expect(recipe_result[:description]).to eq(variables["description"])
       expect(recipe_result[:source]).to eq(variables["source"])
+
+      expect(recipe_result[:lastCooked]).to be_nil
+      expect(recipe_result[:createdAt]).to_not be_nil
+      expect(recipe_result[:updatedAt]).to_not be_nil
     end
   end
 
@@ -114,6 +118,9 @@ RSpec.describe Mutations::CreateRecipe do
             timesCooked
             description
             source
+            lastCooked
+            createdAt
+            updatedAt
           }
           success
           errors
