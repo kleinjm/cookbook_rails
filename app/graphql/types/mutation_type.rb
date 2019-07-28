@@ -15,6 +15,6 @@ module Types
     field :update_menu, mutation: Mutations::UpdateMenu
     field :update_recipe, mutation: Mutations::UpdateRecipe
     field :update_tag, mutation: Mutations::UpdateTag
-    field :update_this_week, mutation: Mutations::UpdateThisWeek
+    field :update_up_next, mutation: Mutations::UpdateUpNext
   end
 end

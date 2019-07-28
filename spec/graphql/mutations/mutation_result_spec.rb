@@ -13,6 +13,28 @@ RSpec.describe Mutations::MutationResult do
       expect(result[:errors]).to eq([])
     end
 
+    it "returns the full hash for an array of objects" do
+      first_user = User.new(first_name: "first")
+      second_user = User.new(first_name: "second")
+      result = described_class.call([first_user, second_user])
+
+      expect(result[:users].first.first_name).to eq("first")
+      expect(result[:users].second.first_name).to eq("second")
+      expect(result[:success]).to eq(true)
+      expect(result[:errors]).to eq([])
+    end
+
+    it "returns the full hash for an active record relation of objects" do
+      create(:user, first_name: "first")
+      create(:user, first_name: "second")
+      result = described_class.call(User.all)
+
+      expect(result[:users].first.first_name).to eq("first")
+      expect(result[:users].second.first_name).to eq("second")
+      expect(result[:success]).to eq(true)
+      expect(result[:errors]).to eq([])
+    end
+
     it "returns the full hash with no object" do
       result = described_class.call
 

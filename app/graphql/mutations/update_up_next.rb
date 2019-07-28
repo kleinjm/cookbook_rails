@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Mutations
-  class UpdateThisWeek < Mutations::BaseMutation
+  class UpdateUpNext < Mutations::BaseMutation
     argument :recipe_ids, [ID], required: false
     argument :up_next, Float, required: true
 
@@ -11,12 +11,12 @@ module Mutations
       recipes = Recipe.find_by_gql_ids(args[:recipe_ids])
       authorize_for_objects(recipes)
 
-      success = recipes.update(up_next: args[:up_next])
+      recipes.update(up_next: args[:up_next])
 
       MutationResult.call(
         recipes,
-        success: success,
-        errors: recipes.map(&:errors).flatten
+        success: true,
+        errors: recipes.map { |recipe| recipe.errors&.full_messages }.flatten
       )
     end
   end
