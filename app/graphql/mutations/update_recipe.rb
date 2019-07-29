@@ -28,7 +28,7 @@ module Mutations
       MutationResult.call(
         result[:recipe],
         success: result[:success],
-        errors: result[:errors]
+        errors: result[:errors]&.full_messages
       )
     end
   end

@@ -37,7 +37,7 @@ class Recipe < ApplicationRecord
             allow_nil: true
   validates :up_next, numericality: true
   validates :up_next, numericality: true
-  validates :link, url: { allow_nil: true }
+  validates :link, url: { allow_blank: true }
 
   def steps_count
     steps.lines.count
