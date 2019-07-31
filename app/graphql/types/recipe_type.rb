@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Tested in create_recipe_spec
 module Types
   class RecipeType < Types::BaseObject
     implements GraphQL::Relay::Node.interface
@@ -16,7 +15,9 @@ module Types
     field :source, String, null: true
     field :step_list, [String], null: true
     field :steps, String, null: true
-    field :cooked_at_dates, [GraphQL::Types::ISO8601DateTime], null: true
+    field :cooked_at_dates, [String], null: true # already converted to string
+    field :times_cooked, Integer, null: true
+    field :last_cooked_at, String, null: true
     field :up_next, Float, null: false
     field :user, Types::UserType, null: true
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false

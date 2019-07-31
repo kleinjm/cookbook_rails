@@ -47,6 +47,14 @@ class Recipe < ApplicationRecord
     steps&.split("\n") || []
   end
 
+  def times_cooked
+    cooked_at_dates.count
+  end
+
+  def last_cooked_at
+    cooked_at_dates.last
+  end
+
   def ingredients_full_names(multiplier: 1)
     @ingredients_full_names ||=
       ingredients_recipes_including_relations.map do |join|

@@ -45,6 +45,7 @@ RSpec.describe Mutations::CreateRecipe do
       expect(recipe_result[:tags][:nodes]).to eq([])
       expect(recipe_result[:upNext]).to eq(variables["upNext"])
       expect(recipe_result[:cookedAtDates]).to eq([])
+      expect(recipe_result[:timesCooked]).to be_zero
       expect(recipe_result[:description]).to eq(variables["description"])
       expect(recipe_result[:source]).to eq(variables["source"])
 
@@ -112,6 +113,7 @@ RSpec.describe Mutations::CreateRecipe do
             }
             upNext
             cookedAtDates
+            timesCooked
             description
             source
             createdAt

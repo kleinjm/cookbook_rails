@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe Types::UserType do
-  it "returns the current user" do
+  it "returns the user with the given id" do
     user = create(:user)
     variables = { "id" => user.gql_id }
 

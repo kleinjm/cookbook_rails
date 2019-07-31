@@ -22,9 +22,31 @@ RSpec.describe Recipe do
       is_greater_than_or_equal_to(0).allow_nil
   end
 
+  describe "#steps_count" do
+    it "returns the correct step count" do
+      recipe = Recipe.new(steps: "first\n second")
+      expect(recipe.steps_count).to eq 2
+    end
+  end
+
   describe "#step_list" do
     it "does not break if steps is blank" do
       expect(Recipe.new.step_list).to eq []
+    end
+  end
+
+  describe "#times_cooked" do
+    it "returns the total number of cooked_at_dates" do
+      recipe = Recipe.new(cooked_at_dates: [Time.current.to_date])
+      expect(recipe.times_cooked).to eq(1)
+    end
+  end
+
+  describe "#last_cooked_at" do
+    it "returns the last cooked at date" do
+      date = Time.current.to_date
+      recipe = Recipe.new(cooked_at_dates: [date])
+      expect(recipe.last_cooked_at).to eq(date.to_s)
     end
   end
 
@@ -64,13 +86,6 @@ RSpec.describe Recipe do
       recipe = create :recipe, up_next: 1
       Recipe.reset_up_next
       expect(recipe.reload.up_next).to eq(0)
-    end
-  end
-
-  describe "#steps_count" do
-    it "returns the correct step count" do
-      recipe = Recipe.new(steps: "first\n second")
-      expect(recipe.steps_count).to eq 2
     end
   end
 

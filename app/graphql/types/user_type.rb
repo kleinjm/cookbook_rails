@@ -11,14 +11,22 @@ module Types
     # TODO: properly handle errors
     field :email, String, null: true
     def email
-      if object.id != context[:current_user]&.id
+      if object != context[:current_user]
         raise GraphQL::UnauthorizedFieldError,
-              "Unable to access authentication_token"
+              "Unable to access email of different account"
       end
 
       object.email
     end
 
     field :recipes, RecipeType.connection_type, null: false, max_page_size: 100
+    def recipes
+      if object != context[:current_user]
+        raise GraphQL::UnauthorizedFieldError,
+              "Unable to access recipes of different account"
+      end
+
+      object.recipes
+    end
   end
 end

@@ -12,6 +12,7 @@ module Types
     field :delete_recipe, mutation: Mutations::DeleteRecipe
     field :delete_tag, mutation: Mutations::DeleteTag
     field :scrape_recipe, mutation: Mutations::ScrapeRecipe
+    field :update_cooked_at_dates, mutation: Mutations::UpdateCookedAtDates
     field :update_menu, mutation: Mutations::UpdateMenu
     field :update_recipe, mutation: Mutations::UpdateRecipe
     field :update_tag, mutation: Mutations::UpdateTag
