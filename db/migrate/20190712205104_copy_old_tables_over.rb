@@ -58,8 +58,7 @@ class CopyOldTablesOver < ActiveRecord::Migration[5.2]
       t.text "description"
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
-      t.integer "user_id", null: false
-      t.references :user, foreign_key: true, index: false, type: :uuid
+      t.references :user, foreign_key: true, index: false, type: :uuid, null: false
       t.index %w[user_id name], name: "index_menus_on_user_id_and_name", unique: true
     end
 
@@ -77,8 +76,7 @@ class CopyOldTablesOver < ActiveRecord::Migration[5.2]
       t.string "name", null: false
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
-      t.integer "user_id", null: false
-      t.references :user, foreign_key: true, index: false, type: :uuid
+      t.references :user, foreign_key: true, index: false, type: :uuid, null: false
       t.index %w[user_id name], name: "index_tags_on_user_id_and_name", unique: true
     end
 

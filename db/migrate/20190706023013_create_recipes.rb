@@ -11,8 +11,8 @@ class CreateRecipes < ActiveRecord::Migration[5.2]
       t.string :source
       t.float :up_next, default: 0.0, null: false
       t.datetime :last_cooked
-      t.integer :user_id, null: false
-      t.references :user, foreign_key: true, index: false, type: :uuid
+      t.references :user,
+                   foreign_key: true, index: false, type: :uuid, null: false
       t.index [:user_id, :link], unique: true
 
       t.timestamps

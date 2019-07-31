@@ -142,7 +142,6 @@ RSpec.describe Types::QueryType do
           nodes {
             id
             name
-            recipeCount
           }
         }
       }

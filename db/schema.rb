@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_31_022911) do
+ActiveRecord::Schema.define(version: 2019_07_31_211746) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 2019_07_31_022911) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "user_id"
+    t.uuid "user_id", null: false
     t.index ["user_id", "name"], name: "index_menus_on_user_id_and_name", unique: true
   end
 
@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 2019_07_31_022911) do
     t.text "steps"
     t.string "source"
     t.float "up_next", default: 0.0, null: false
-    t.uuid "user_id"
+    t.uuid "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "cook_time_unit"
@@ -98,11 +98,21 @@ ActiveRecord::Schema.define(version: 2019_07_31_022911) do
     t.index ["tag_id"], name: "index_recipes_tags_on_tag_id"
   end
 
+  create_table "tag_groups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "name"], name: "index_tag_groups_on_user_id_and_name", unique: true
+  end
+
   create_table "tags", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "user_id"
+    t.uuid "user_id", null: false
+    t.uuid "tag_group_id"
+    t.index ["tag_group_id"], name: "index_tags_on_tag_group_id"
     t.index ["user_id", "name"], name: "index_tags_on_user_id_and_name", unique: true
   end
 
@@ -150,5 +160,7 @@ ActiveRecord::Schema.define(version: 2019_07_31_022911) do
   add_foreign_key "recipes", "users"
   add_foreign_key "recipes_tags", "recipes"
   add_foreign_key "recipes_tags", "tags"
+  add_foreign_key "tag_groups", "users"
+  add_foreign_key "tags", "tag_groups"
   add_foreign_key "tags", "users"
 end

@@ -54,8 +54,7 @@ group :test do
   gem "rails-controller-testing"
   gem "rspec-graphql_matchers" # TODO: wire up all the graphql gems
   gem "rspec-rails"
-  gem "shoulda"
-  gem "shoulda-matchers", "~> 3.1.2"
+  gem "shoulda-matchers", "~> 4.1.1"
   gem "simplecov", require: false
   gem "simplecov-lcov"
   gem "timecop"

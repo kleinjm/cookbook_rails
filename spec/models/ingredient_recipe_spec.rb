@@ -6,7 +6,7 @@ RSpec.describe IngredientRecipe do
   describe "validations" do
     it { is_expected.to belong_to(:recipe) }
     it { is_expected.to belong_to(:ingredient) }
-    it { is_expected.to belong_to(:unit) }
+    it { is_expected.to belong_to(:unit).optional }
     it { is_expected.to validate_presence_of(:ingredient) }
     it { is_expected.to validate_presence_of(:recipe) }
   end

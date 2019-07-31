@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :recipes, dependent: :destroy, inverse_of: :user
   has_many :menus, dependent: :destroy, inverse_of: :user
   has_many :tags, dependent: :destroy, inverse_of: :user
+  has_many :tag_groups, dependent: :destroy, inverse_of: :user
 
   validates :first_name, :last_name, :email, presence: true
 end
