@@ -9,20 +9,17 @@ module Types
 
     field :recipes, RecipeType.connection_type, null: false do
       argument :ingredient_search, String, required: false, default_value: ""
-      argument :last_cooked, Integer, required: false, default_value: 0
       argument :search_query, String, required: false, default_value: ""
       argument :tag_ids, [ID], required: false, default_value: []
       argument :up_next, Boolean, required: false, default_value: false
     end
 
     def recipes(
-      search_query:, tag_ids:, up_next:, last_cooked:,
-      ingredient_search:
+      search_query:, tag_ids:, up_next:, ingredient_search:
     )
       ::Queries::Recipes.call(
         user: context[:current_user],
         ingredient_search: ingredient_search,
-        last_cooked: last_cooked,
         search_query: search_query,
         tag_ids: tag_ids,
         up_next: up_next

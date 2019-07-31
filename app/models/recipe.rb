@@ -28,7 +28,7 @@ class Recipe < ApplicationRecord
   has_many :menus_recipes, dependent: :destroy, class_name: "MenuRecipe"
   has_many :menus, through: :menus_recipes
 
-  validates :name, :times_cooked, :user_id, presence: true
+  validates :name, :user_id, presence: true
   validates :cook_time_unit,
             inclusion: { in: COOK_TIME_UNITS },
             allow_nil: true
@@ -66,13 +66,6 @@ class Recipe < ApplicationRecord
     up_next.find_each do |recipe|
       recipe.update(up_next: 0)
     end
-  end
-
-  def self.last_cooked_recipes(count:)
-    where.
-      not(last_cooked: nil).
-      order("last_cooked DESC").
-      limit(count)
   end
 
   # if this recipe is not persisted, do not try to load associations via the db

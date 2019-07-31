@@ -2,21 +2,18 @@
 
 module Queries
   class Recipes
-    # rubocop:disable Metrics/ParameterLists
     def self.call(
-      search_query: "", tag_ids: [], up_next: false,
-      last_cooked: 0, ingredient_search: "", user: nil
+      search_query: "", tag_ids: [], up_next: false, ingredient_search: "",
+      user: nil
     )
       new(
         user: user,
         ingredient_search: ingredient_search,
-        last_cooked: last_cooked,
         search_query: search_query,
         tag_ids: tag_ids,
         up_next: up_next
       ).call
     end
-    # rubocop:enable Metrics/ParameterLists
 
     # rubocop:disable Metrics/MethodLength
     def call
@@ -24,8 +21,6 @@ module Queries
         []
       elsif up_next
         up_next_recipes
-      elsif last_cooked.positive?
-        last_cooked_recipes
       elsif search_recipes?
         recipe_search_results
       elsif ingredient_search.present?
@@ -38,29 +33,20 @@ module Queries
 
     private
 
-    attr_reader :search_query, :tag_ids, :up_next,
-                :last_cooked, :ingredient_search, :user
+    attr_reader :search_query, :tag_ids, :up_next, :ingredient_search, :user
 
-    # rubocop:disable Metrics/ParameterLists
     def initialize(
-      search_query:, tag_ids:, up_next:, last_cooked:,
-      ingredient_search:, user:
+      search_query:, tag_ids:, up_next:, ingredient_search:, user:
     )
       @user = user
       @ingredient_search = ingredient_search
-      @last_cooked = last_cooked
       @search_query = search_query
       @tag_ids = tag_ids
       @up_next = up_next
     end
-    # rubocop:enable Metrics/ParameterLists
 
     def up_next_recipes
       base_query.up_next
-    end
-
-    def last_cooked_recipes
-      base_query.last_cooked_recipes(count: last_cooked)
     end
 
     def search_recipes?

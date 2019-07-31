@@ -1,19 +1,10 @@
 # frozen_string_literal: true
 
 module Mutations
-  class UpdateRecipe < Mutations::BaseMutation
+  class ChangeCookedAtDates < Mutations::BaseMutation
     argument :recipe_id, ID, required: true, loads: Types::RecipeType
 
-    argument :cook_time_quantity, String, required: false
-    argument :cook_time_unit, String, required: false
-    argument :ingredients, String, required: false
-    argument :link, String, required: false
-    argument :name, String, required: false
-    argument :description, String, required: false
-    argument :source, String, required: false
-    argument :steps, String, required: false
-    argument :tag_ids, [ID], required: false
-    argument :up_next, Float, required: false
+    argument :change_amount, Int, required: true
 
     field :recipe, Types::RecipeType, null: true
 

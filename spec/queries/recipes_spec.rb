@@ -51,17 +51,6 @@ RSpec.describe Queries::Recipes do
       expect(recipes.first).to eq(recipe)
     end
 
-    it "returns n last cooked recipes" do
-      user = create(:user)
-      recipe = create(:recipe, last_cooked: Time.current, user: user)
-      _not_matched = create(:recipe, last_cooked: 1.week.ago, user: user)
-
-      recipes = described_class.call(last_cooked: 1, user: user)
-
-      expect(recipes.length).to eq(1)
-      expect(recipes.first).to eq(recipe)
-    end
-
     it "returns up_next recipes if up_next true" do
       user = create(:user)
       recipe = create(:recipe, up_next: 1, user: user)

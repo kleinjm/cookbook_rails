@@ -14,7 +14,6 @@ module Mutations
     argument :steps, String, required: false
     argument :tag_ids, [ID], required: false
     argument :up_next, Float, required: false
-    argument :times_cooked, Integer, required: false
 
     field :recipe, Types::RecipeType, null: true
 

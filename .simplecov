@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 SimpleCov.start "rails" do
-  minimum_coverage 88.24
+  minimum_coverage 86.6
 
   # custom directories
   add_group "Graphql", "app/graphql"

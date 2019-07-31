@@ -11,7 +11,6 @@ RSpec.describe Types::QueryType do
       expect(Queries::Recipes).to have_received(:call).with(
         user: nil,
         ingredient_search: "",
-        last_cooked: 0,
         search_query: "",
         tag_ids: [],
         up_next: false
@@ -24,7 +23,6 @@ RSpec.describe Types::QueryType do
       execute_gql(
         variables: {
           "ingredientSearch" => "ingredient",
-          "lastCooked" => 10,
           "searchQuery" => "search",
           "tagIds" => ["456"],
           "upNext" => false
@@ -36,7 +34,6 @@ RSpec.describe Types::QueryType do
       expect(Queries::Recipes).to have_received(:call).with(
         user: user,
         ingredient_search: "ingredient",
-        last_cooked: 10,
         search_query: "search",
         tag_ids: ["456"],
         up_next: false
@@ -107,14 +104,12 @@ RSpec.describe Types::QueryType do
     %(
       query(
         $ingredientSearch: String,
-        $lastCooked: Int,
         $searchQuery: String,
         $tagIds: [ID!],
         $upNext: Boolean
       ) {
         recipes(
           ingredientSearch: $ingredientSearch,
-          lastCooked: $lastCooked,
           searchQuery: $searchQuery,
           tagIds: $tagIds,
           upNext: $upNext

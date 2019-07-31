@@ -28,31 +28,6 @@ RSpec.describe RecipeBuilder do
       expect(recipe.link).to eq attributes[:link]
     end
 
-    it "updates the last_cooked when incrementing times_cooked" do
-      Timecop.freeze do
-        recipe = create :recipe
-        expect(recipe.last_cooked).to be_nil
-
-        builder = described_class.new(recipe.id)
-        builder.update(attributes: { times_cooked: "1" })
-        recipe.reload
-
-        expect(recipe.last_cooked).to be_within(0.01).of(Time.current)
-      end
-    end
-
-    it "does not update the last_cooked when decrementing times_cooked" do
-      Timecop.freeze do
-        recipe = create :recipe, times_cooked: 1, last_cooked: 1.day.ago
-
-        builder = described_class.new(recipe.id)
-        builder.update(attributes: { times_cooked: "0" })
-        recipe.reload
-
-        expect(recipe.last_cooked).to be_within(0.01).of(1.day.ago)
-      end
-    end
-
     it "handle standard errors" do
       builder = RecipeBuilder.new
       allow(builder).to receive(:clean_attributes).and_raise("ERROR!")

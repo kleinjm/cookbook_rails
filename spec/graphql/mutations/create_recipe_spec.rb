@@ -17,8 +17,7 @@ RSpec.describe Mutations::CreateRecipe do
         "source" => "My cookbook, page 1",
         "steps" => "First step\n Second step",
         # "tag_ids" => nil,
-        "upNext" => 1.0,
-        "timesCooked" => 3
+        "upNext" => 1.0
       }
 
       result = gql_query(
@@ -45,11 +44,10 @@ RSpec.describe Mutations::CreateRecipe do
       expect(recipe_result[:cookTimeUnit]).to eq(variables["cookTimeUnit"])
       expect(recipe_result[:tags][:nodes]).to eq([])
       expect(recipe_result[:upNext]).to eq(variables["upNext"])
-      expect(recipe_result[:timesCooked]).to eq(variables["timesCooked"])
+      expect(recipe_result[:cookedAtDates]).to eq([])
       expect(recipe_result[:description]).to eq(variables["description"])
       expect(recipe_result[:source]).to eq(variables["source"])
 
-      expect(recipe_result[:lastCooked]).to be_nil
       expect(recipe_result[:createdAt]).to_not be_nil
       expect(recipe_result[:updatedAt]).to_not be_nil
     end
@@ -77,7 +75,6 @@ RSpec.describe Mutations::CreateRecipe do
         $steps: String,
         $tagIds: [ID!],
         $upNext: Float,
-        $timesCooked: Int
       ) {
         createRecipe(input: {
           name: $name,
@@ -90,7 +87,6 @@ RSpec.describe Mutations::CreateRecipe do
           steps: $steps,
           tagIds: $tagIds,
           upNext: $upNext,
-          timesCooked: $timesCooked
         }) {
           recipe {
             id
@@ -115,10 +111,9 @@ RSpec.describe Mutations::CreateRecipe do
               }
             }
             upNext
-            timesCooked
+            cookedAtDates
             description
             source
-            lastCooked
             createdAt
             updatedAt
           }

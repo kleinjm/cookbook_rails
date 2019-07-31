@@ -25,7 +25,6 @@ class RecipeBuilder
     titleize(attributes)
     sync_tags(attributes)
     parse_ingredients(attributes)
-    touch_times_cooked(attributes)
     recipe.update(attributes)
     recipe_response
   rescue StandardError => e
@@ -69,13 +68,6 @@ class RecipeBuilder
     return unless attributes.key? :name
 
     attributes[:name] = attributes[:name].titleize
-  end
-
-  def touch_times_cooked(attributes)
-    return if attributes[:times_cooked].blank?
-    return if attributes[:times_cooked].to_i <= recipe.times_cooked
-
-    recipe.last_cooked = Time.current
   end
 
   def recipe_response
