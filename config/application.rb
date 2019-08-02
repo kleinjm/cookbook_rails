@@ -45,11 +45,10 @@ module CookbookRails
       enable_starttls_auto: true
     }
 
-    # Settings in config/environments/* take precedence over those
-    # specified here.
-    # Application configuration can go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded after loading
-    # the framework and any gems in your application.
+    # For whatever reason, there is a bug in ruby-graphql that will not load
+    # types without having this specified. This affected TagGroupType which
+    # was not registering with the schema.
+    config.autoload_paths += %W[#{config.root}/app/graphql/types]
     config.autoload_paths += %W[#{config.root}/app]
 
     # Only loads a smaller set of middleware suitable for API only apps.
