@@ -8,6 +8,7 @@ module Types
     field :create_menu, mutation: Mutations::CreateMenu
     field :create_recipe, mutation: Mutations::CreateRecipe
     field :create_tag, mutation: Mutations::CreateTag
+    field :create_tag_group, mutation: Mutations::CreateTagGroup
     field :delete_menu, mutation: Mutations::DeleteMenu
     field :delete_recipe, mutation: Mutations::DeleteRecipe
     field :delete_tag, mutation: Mutations::DeleteTag

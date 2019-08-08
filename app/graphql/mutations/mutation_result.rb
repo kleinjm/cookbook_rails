@@ -11,7 +11,7 @@ module Mutations
         if object.is_a?(Enumerable)
           object.first.class.name.downcase.pluralize
         else
-          object.class.name.downcase
+          object.class.name.underscore
         end
       { key => object }.deep_symbolize_keys.merge(base_results)
     end
