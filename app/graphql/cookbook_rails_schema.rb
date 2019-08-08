@@ -28,8 +28,10 @@ class CookbookRailsSchema < GraphQL::Schema
   end
 
   def self.unauthorized_object(error)
+    # raise error
+    require "pry"; binding.pry
     raise GraphQL::ExecutionError,
-          "An object of type #{error.type.graphql_name} was hidden due " \
+          "An object of type #{error.type&.graphql_name} was hidden due " \
           "to permissions"
   end
 end
