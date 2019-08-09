@@ -8,6 +8,7 @@ class RecipeBuilder
   end
 
   def create(attributes: {})
+    attributes = attributes.with_indifferent_access
     clean_attributes(attributes)
     titleize(attributes)
     parse_ingredients(attributes)
@@ -21,6 +22,7 @@ class RecipeBuilder
 
   # updates only the given attributes
   def update(attributes: {})
+    attributes = attributes.with_indifferent_access
     clean_attributes(attributes)
     titleize(attributes)
     sync_tags(attributes)
@@ -40,7 +42,7 @@ class RecipeBuilder
   def sync_tags(attributes)
     return unless attributes.key?(TAG_IDS_ATTR)
 
-    recipe.tags = Tag.find_by_gql_ids(attributes[TAG_IDS_ATTR])
+    recipe.tags = Tag.where(id: attributes[TAG_IDS_ATTR])
     attributes.delete(TAG_IDS_ATTR)
   end
 
@@ -53,14 +55,14 @@ class RecipeBuilder
   end
 
   def clean_attributes(attributes)
-    return attributes if attributes["steps"].blank?
+    return attributes if attributes[:steps].blank?
 
-    attributes["steps"] = attributes["steps"].each_line.map do |x|
+    attributes[:steps] = attributes[:steps].each_line.map do |step|
       # remove extra new lines
-      next if x.strip == ""
+      next if step.strip == ""
 
       # remove leading white space
-      x.lstrip
+      step.lstrip
     end.join
   end
 

@@ -35,12 +35,10 @@ RSpec.describe CookbookRailsSchema do
 
   describe ".unauthorized_object" do
     it "raises a permissions error" do
-      error = double :error, type: OpenStruct.new(graphql_name: "TEST")
+      error = double :error, message: "Error!"
 
       expect { described_class.unauthorized_object(error) }.to raise_error(
-        GraphQL::ExecutionError,
-        "An object of type #{error.type.graphql_name} was hidden due " \
-        "to permissions"
+        GraphQL::ExecutionError, "Error!"
       )
     end
   end

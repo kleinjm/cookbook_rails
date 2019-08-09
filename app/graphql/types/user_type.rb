@@ -8,7 +8,6 @@ module Types
     field :first_name, String, null: false
     field :last_name, String, null: false
 
-    # TODO: properly handle errors
     field :email, String, null: true
     def email
       if object != context[:current_user]

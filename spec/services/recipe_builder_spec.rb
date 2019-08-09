@@ -13,6 +13,30 @@ RSpec.describe RecipeBuilder do
       expect(response[:success]).to eq false
       expect(response[:errors]).to eq ["Error modifying recipe", "ERROR!"]
     end
+
+    it "syncs the tags" do
+      builder = RecipeBuilder.new
+      tag = create(:tag)
+      user = create(:user)
+
+      response = builder.create(
+        attributes: {
+          name: "Test",
+          user_id: user.id,
+          tag_ids: [tag.id],
+          steps: "  leading space\nAnd end space\n"
+        }
+      )
+
+      expect(response[:success]).to eq(true)
+      expect(response[:errors]).to be_blank
+
+      recipe = Recipe.first
+      expect(recipe.name).to eq("Test")
+      expect(recipe.user).to eq(user)
+      expect(recipe.tags).to eq([tag])
+      expect(recipe.steps).to eq("leading space\nAnd end space\n")
+    end
   end
 
   describe "#update" do

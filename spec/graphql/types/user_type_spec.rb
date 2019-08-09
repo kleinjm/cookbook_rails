@@ -25,13 +25,19 @@ RSpec.describe Types::UserType do
 
     result = gql_query(
       query: query, variables: variables, user: non_owner
-    ).to_h.deep_symbolize_keys#.dig(:data, :node)
+    ).to_h.deep_symbolize_keys
 
     expect(result.dig(:data, :node)).to be_nil
+
     email_error = result.dig(:errors, 0)
-    # TODO: finish testing
-    expect(email_error[:path]).to eq(["node", "email"])
-    expect(email_error[:message]).to eq("Unable to access email of different account")
+    expect(email_error[:path]).to eq(%w[node email])
+    expect(email_error[:message]).
+      to eq("Unable to access email of different account")
+
+    recipes_error = result.dig(:errors, 0)
+    expect(recipes_error[:path]).to eq(%w[node email])
+    expect(recipes_error[:message]).
+      to eq("Unable to access email of different account")
   end
 
   def query

@@ -27,7 +27,7 @@ class IngreedyWrapper
       compute_unit(ingredient)
       standardize_unit(ingredient)
       ingredient
-    rescue Ingreedy::ParseFailed => e
+    rescue Ingreedy::ParseFailed
       ingredient = handle_exception(ingredient_text)
       standardize_unit(ingredient)
       return ingredient if ingredient.present?
@@ -112,7 +112,6 @@ class IngreedyWrapper
         ingredient_text[(opening_paren_index + 1)..(closing_paren_index - 1)]
 
       first_number = text_between_parens.each_char.find { |c| c.to_i == 1 }
-      return strip_parens(ingredient_text) if first_number.blank?
 
       first_number_index = text_between_parens.index first_number
       reparse_text =
@@ -136,13 +135,6 @@ class IngreedyWrapper
         parsed_paren_text.unit,
         stripped_parens_text,
         ingredient_text
-      )
-    end
-
-    def strip_parens(ingredient_text)
-      fixed_ingredient = ingredient_text.gsub(/\(.*?\)/, "").strip
-      Ingreedy::Parser::Result.new(
-        0, nil, 0, nil, fixed_ingredient, ingredient_text
       )
     end
   end

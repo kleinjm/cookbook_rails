@@ -34,8 +34,8 @@ RSpec.describe Mutations::UpdateRecipe do
       expect(recipe_result[:name]).to eq(recipe.name)
       expect(recipe_result.dig(:ingredients, :nodes)).
         to eq([{ name: "Basil", quantity: 1.0, unit: "cup" }])
-      expect(recipe_result[:stepList]).to eq(["First step", " Second step"])
-      expect(recipe_result[:steps]).to eq("First step\n Second step")
+      expect(recipe_result[:stepList]).to eq(["First step", "Second step"])
+      expect(recipe_result[:steps]).to eq("First step\nSecond step")
       expect(recipe_result[:link]).to eq(variables["link"])
       expect(recipe_result[:cookTimeQuantity]).
         to eq(variables["cookTimeQuantity"])

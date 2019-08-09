@@ -49,9 +49,11 @@ class RecipeScraper
     raise(MissingUrlError, I18n.t("recipe_scraper.missing_link_error"))
   end
 
+  # :nocov:
   def scrape_output
     @scrape_output ||= `python #{SCRIPT_PATH} #{url}`
   end
+  # :nocov:
 
   def run_and_validate_scrape
     raise ScrapeFailure, scrape_output if scrape_output.downcase.match?(/error/)
